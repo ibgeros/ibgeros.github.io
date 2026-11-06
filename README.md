@@ -27,10 +27,10 @@ O que ele **não** responde: disponibilidade, atração, interesse recíproco, c
 concorrência, distância dentro do estado ou chance de encontrar alguém. Ver
 [limitações](site/metodologia.html#limitacoes).
 
-## Autor
+## Autoria
 
-Criado por **[Gilson Junior](https://github.com/gilsonmjunior)** — projeto, dados derivados e código. Se você usar
-este projeto ou os dados derivados, cite o autor (veja `CITATION.cff`).
+Projeto independente, sem fins comerciais. O código e os dados derivados são
+publicados sem atribuição nominal.
 
 ## Rodar localmente
 
@@ -215,8 +215,7 @@ branch **`gh-pages`** e pasta **`/ (root)`**.
 A URL fica no formato
 `https://<seu-usuario>.github.io/ha-homem-ou-mulher-pra-mim/`.
 
-Este repositório está publicado em
-**https://gilsonmjunior.github.io/ha-homem-ou-mulher-pra-mim/**.
+A URL pública fica no campo *Homepage* do repositório.
 
 ## Nota sobre espaço em disco
 

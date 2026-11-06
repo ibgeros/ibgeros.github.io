@@ -1,14 +1,12 @@
 cff-version: 1.2.0
-message: "Se você usar este projeto ou os dados derivados, cite o autor."
+message: "Se você usar este projeto ou os dados derivados, cite o projeto."
 title: "Há homem ou mulher pra mim no Brasil?"
 abstract: >-
   Calculadora de pool afetivo com microdados públicos do IBGE: Censo 2022,
   PNS 2013/2019 e PNAD Contínua 2025. Cinco imputações múltiplas, faixa de
   incerteza e método aberto.
 authors:
-  - family-names: "Junior"
-    given-names: "Gilson"
+  - name: "Projeto Há homem ou mulher pra mim no Brasil?"
 date-released: 2026-11-06
 license: MIT
 type: software
-repository-code: "https://github.com/gilsonmjunior/ha-homem-ou-mulher-pra-mim"
