@@ -1,0 +1,229 @@
+{
+ "gerado_em": "2026-11-06",
+ "n_registros": 226692,
+ "populacao": 143912701.56817514,
+ "idade_min": 20,
+ "idade_max": 79,
+ "ufs": [
+  {
+   "codigo": "11",
+   "nome": "Rondônia",
+   "regiao": "Norte"
+  },
+  {
+   "codigo": "12",
+   "nome": "Acre",
+   "regiao": "Norte"
+  },
+  {
+   "codigo": "13",
+   "nome": "Amazonas",
+   "regiao": "Norte"
+  },
+  {
+   "codigo": "14",
+   "nome": "Roraima",
+   "regiao": "Norte"
+  },
+  {
+   "codigo": "15",
+   "nome": "Pará",
+   "regiao": "Norte"
+  },
+  {
+   "codigo": "16",
+   "nome": "Amapá",
+   "regiao": "Norte"
+  },
+  {
+   "codigo": "17",
+   "nome": "Tocantins",
+   "regiao": "Norte"
+  },
+  {
+   "codigo": "21",
+   "nome": "Maranhão",
+   "regiao": "Nordeste"
+  },
+  {
+   "codigo": "22",
+   "nome": "Piauí",
+   "regiao": "Nordeste"
+  },
+  {
+   "codigo": "23",
+   "nome": "Ceará",
+   "regiao": "Nordeste"
+  },
+  {
+   "codigo": "24",
+   "nome": "Rio Grande do Norte",
+   "regiao": "Nordeste"
+  },
+  {
+   "codigo": "25",
+   "nome": "Paraíba",
+   "regiao": "Nordeste"
+  },
+  {
+   "codigo": "26",
+   "nome": "Pernambuco",
+   "regiao": "Nordeste"
+  },
+  {
+   "codigo": "27",
+   "nome": "Alagoas",
+   "regiao": "Nordeste"
+  },
+  {
+   "codigo": "28",
+   "nome": "Sergipe",
+   "regiao": "Nordeste"
+  },
+  {
+   "codigo": "29",
+   "nome": "Bahia",
+   "regiao": "Nordeste"
+  },
+  {
+   "codigo": "31",
+   "nome": "Minas Gerais",
+   "regiao": "Sudeste"
+  },
+  {
+   "codigo": "32",
+   "nome": "Espírito Santo",
+   "regiao": "Sudeste"
+  },
+  {
+   "codigo": "33",
+   "nome": "Rio de Janeiro",
+   "regiao": "Sudeste"
+  },
+  {
+   "codigo": "35",
+   "nome": "São Paulo",
+   "regiao": "Sudeste"
+  },
+  {
+   "codigo": "41",
+   "nome": "Paraná",
+   "regiao": "Sul"
+  },
+  {
+   "codigo": "42",
+   "nome": "Santa Catarina",
+   "regiao": "Sul"
+  },
+  {
+   "codigo": "43",
+   "nome": "Rio Grande do Sul",
+   "regiao": "Sul"
+  },
+  {
+   "codigo": "50",
+   "nome": "Mato Grosso do Sul",
+   "regiao": "Centro-Oeste"
+  },
+  {
+   "codigo": "51",
+   "nome": "Mato Grosso",
+   "regiao": "Centro-Oeste"
+  },
+  {
+   "codigo": "52",
+   "nome": "Goiás",
+   "regiao": "Centro-Oeste"
+  },
+  {
+   "codigo": "53",
+   "nome": "Distrito Federal",
+   "regiao": "Centro-Oeste"
+  }
+ ],
+ "faixas_idade": [
+  "20-24",
+  "25-29",
+  "30-34",
+  "35-39",
+  "40-44",
+  "45-49",
+  "50-54",
+  "55-59",
+  "60-64",
+  "65-69",
+  "70-74",
+  "75-79"
+ ],
+ "escolaridade": [
+  "Fundamental incompleto",
+  "Fundamental completo / médio incompleto",
+  "Médio completo / superior incompleto",
+  "Superior completo"
+ ],
+ "estado_civil": [
+  "Em união",
+  "Já viveu em união",
+  "Nunca viveu em união"
+ ],
+ "filhos": [
+  "Nenhum",
+  "Um",
+  "Dois ou mais"
+ ],
+ "imc": [
+  "Baixo peso",
+  "Peso normal",
+  "Sobrepeso",
+  "Obesidade"
+ ],
+ "raca": [
+  "Branca",
+  "Preta",
+  "Amarela",
+  "Parda",
+  "Indígena"
+ ],
+ "renda_ano_referencia": 2025,
+ "n_imputacoes": 5,
+ "layout_version": 2,
+ "modelos": {
+  "altura": {
+   "beta_edu": 0.19425535248743003,
+   "beta_renda": 0.08763082172965933,
+   "beta_ano2019": 0.06800203118834501,
+   "regiao": {
+    "Norte": 0.0,
+    "Nordeste": 0.11826928259601571,
+    "Sudeste": 0.3936829525886665,
+    "Sul": 0.45582023223740475,
+    "Centro-Oeste": 0.3720649386291444
+   },
+   "sigma": 0.9469898939679131,
+   "n": 64209,
+   "n_2013": 57894,
+   "n_2019": 6315,
+   "mu_altura": {
+    "0": 171.42472214012278,
+    "1": 158.63279316537233
+   }
+  },
+  "imc": {
+   "beta": [
+    3.2917447871572727,
+    0.025773981288696027,
+    0.023991744322618754,
+    -0.015357589724971253,
+    -0.0008351776078885454,
+    0.007855688398568931,
+    0.014765924819037478
+   ],
+   "sigma": 0.18178769698786632,
+   "n": 64209
+  }
+ },
+ "totais": {
+  "homens": 68955398.14556777,
+  "mulheres": 74957303.42260738
+ }
+}

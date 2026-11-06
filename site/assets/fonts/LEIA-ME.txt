@@ -1,0 +1,7 @@
+Fraunces e Inter são distribuídas sob a SIL Open Font License 1.1.
+Arquivos obtidos do Google Fonts (subconjunto latino) e servidos localmente
+para que o site funcione sem conexão com a internet.
+
+- Fraunces: https://fonts.google.com/specimen/Fraunces
+- Inter: https://fonts.google.com/specimen/Inter
+- Licença: https://openfontlicense.org

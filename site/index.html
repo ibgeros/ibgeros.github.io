@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Há homem ou mulher pra mim no Brasil?</title>
+<meta name="author" content="Gilson Junior">
+<meta name="description" content="Monte o pacote do seu crush e veja, na hora, quantas pessoas reais atendem a todos os critérios. Dados do IBGE e conta aberta.">
+<meta property="og:title" content="Há homem ou mulher pra mim no Brasil?">
+<meta property="og:description" content="Quantas pessoas reais atendem ao seu pacote de exigências? Dados do IBGE e conta aberta.">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23f4f1ea' stroke='%2317140e' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%23b23a1e'/%3E%3C/svg%3E">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Há homem ou mulher pra mim no Brasil?","author":{"@type":"Person","name":"Gilson Junior","url":"https://github.com/gilsonmjunior"},"applicationCategory":"LifestyleApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0"},"isAccessibleForFree":true}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="index.html" aria-label="Há homem ou mulher pra mim no Brasil — página inicial">
+      <span class="brand__mark" aria-hidden="true"></span>
+      <span>
+        <span class="brand__name">Há homem <em>ou mulher</em> pra mim?</span>
+        <span class="brand__sub">no Brasil · dados do IBGE</span>
+      </span>
+    </a>
+    <nav class="site-nav" aria-label="Navegação principal">
+      <a href="index.html" class="is-active">Calculadora</a>
+      <a href="metodologia.html">Metodologia</a>
+      <a href="dados.html">Dados</a>
+      <a href="metodologia.html#fontes">Fontes</a>
+    </nav>
+    <span class="badge">Censo 2022 · PNS 2019 · PNAD 2025</span>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mobileNav">Menu</button>
+  </div>
+  <nav id="mobileNav" class="site-nav" style="display:none;padding:0 16px 12px;flex-wrap:wrap">
+    <a href="index.html">Calculadora</a>
+    <a href="metodologia.html">Metodologia</a>
+    <a href="dados.html">Dados</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <p class="hero__eyebrow">A calculadora mais sincera do Brasil</p>
+      <h1>Há homem <em>ou mulher</em> pra mim no Brasil?</h1>
+      <p class="hero__lede">
+        Monte o pacote do seu crush e descubra, na hora, quantas pessoas reais passam em
+        <b>todos</b> os critérios. Os dados são do IBGE; a conta é nossa.
+      </p>
+      <div class="hero__meta">
+        <span class="pill"><span class="pill__dot"></span><strong id="heroPop">143,9 milhões</strong> de pessoas de 20 a 79 anos</span>
+        <span class="pill">Base amostral: <strong>226.692</strong> registros</span>
+        <span class="pill">Renda em <strong>reais de 2025</strong></span>
+        <span class="pill">Zero julgamento <span style="opacity:.6">(mentira)</span></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" id="calculadora" style="padding-top:0">
+    <div class="calc">
+      <!-- ------------------------------------------------------- filtros -->
+      <form class="panel filters" id="filterForm" onsubmit="return false">
+        <div class="filters__top">
+          <div class="field">
+            <label id="sexLabel">Meu tipo é</label>
+            <div class="segmented" role="group" aria-labelledby="sexLabel" data-filter="sex">
+              <button type="button" data-value="0" class="is-active">Homem</button>
+              <button type="button" data-value="1">Mulher</button>
+            </div>
+          </div>
+          <div class="field">
+            <label for="uf">Onde eu procuro</label>
+            <div class="select-wrap">
+              <select id="uf" name="uf">
+                <option value="BR">Brasil (todo o país)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-row" data-filter="age">
+          <div class="filter-row__head">
+            <label for="ageMin">Idade</label>
+            <output class="filter-row__value" id="ageOut">25 a 39 anos</output>
+          </div>
+          <div class="dual" id="dual">
+            <div class="dual__track"></div>
+            <div class="dual__fill" id="dualFill"></div>
+            <input type="range" id="ageMin" min="0" max="11" step="1" value="1" aria-label="Idade mínima">
+            <input type="range" id="ageMax" min="0" max="11" step="1" value="3" aria-label="Idade máxima">
+          </div>
+          <div class="dual__scale"><span>20</span><span>50</span><span>79</span></div>
+          <div class="filter-row__meta"><span class="meter"><span id="mAge"></span></span><span id="ageMeta">—</span></div>
+        </div>
+
+        <div class="filter-row" data-filter="altura">
+          <div class="filter-row__head">
+            <label for="altura">Altura mínima</label>
+            <output class="filter-row__value" id="alturaOut">175 cm</output>
+          </div>
+          <input class="range" type="range" id="altura" min="150" max="200" step="1" value="175">
+          <div class="filter-row__meta"><span class="meter"><span id="mAltura"></span></span><span id="alturaMeta">—</span></div>
+        </div>
+
+        <div class="filter-row" data-filter="renda">
+          <div class="filter-row__head">
+            <label for="renda">Renda mensal mínima</label>
+            <output class="filter-row__value" id="rendaOut">R$ 3.000</output>
+          </div>
+          <input class="range" type="range" id="renda" min="0" max="16" step="1" value="5">
+          <div class="filter-row__meta"><span class="meter"><span id="mRenda"></span></span><span id="rendaMeta">—</span></div>
+        </div>
+
+        <div class="filter-row" data-filter="edu">
+          <div class="filter-row__head">
+            <label>Escolaridade mínima</label>
+            <output class="filter-row__value" id="eduOut">Qualquer</output>
+          </div>
+          <div class="segmented" role="group" aria-label="Escolaridade mínima" data-filter="edu">
+            <button type="button" data-value="0" class="is-active">Qualquer</button>
+            <button type="button" data-value="1">Médio</button>
+            <button type="button" data-value="2">Superior</button>
+          </div>
+          <div class="filter-row__meta"><span class="meter"><span id="mEdu"></span></span><span id="eduMeta">—</span></div>
+        </div>
+
+        <div class="filter-row" data-filter="marital">
+          <div class="filter-row__head">
+            <label>Estado civil</label>
+            <output class="filter-row__value" id="maritalOut">Qualquer</output>
+          </div>
+          <div class="segmented" role="group" aria-label="Estado civil" data-filter="marital">
+            <button type="button" data-value="0" class="is-active">Qualquer</button>
+            <button type="button" data-value="1">Não está em união</button>
+            <button type="button" data-value="2">Nunca viveu em união</button>
+          </div>
+          <div class="filter-row__meta"><span class="meter"><span id="mMarital"></span></span><span id="maritalMeta">—</span></div>
+        </div>
+
+        <div class="filter-row" data-filter="kids">
+          <div class="filter-row__head">
+            <label>Outros critérios</label>
+            <output class="filter-row__value" id="kidsOut">Nenhum</output>
+          </div>
+          <div class="toggle-grid">
+            <button type="button" class="chip-toggle" id="kids" aria-pressed="false">Sem filhos</button>
+            <button type="button" class="chip-toggle" id="car" aria-pressed="false" title="Existe automóvel no domicílio">Carro no domicílio</button>
+            <button type="button" class="chip-toggle" id="home" aria-pressed="false" title="Algum morador é proprietário do imóvel">Casa própria</button>
+            <button type="button" class="chip-toggle" id="smoke" aria-pressed="false">Não fuma</button>
+          </div>
+          <div class="filter-row__meta"><span class="meter"><span id="mToggle"></span></span><span id="toggleMeta">Filtros opcionais</span></div>
+        </div>
+
+        <div class="filter-row" data-filter="bmi">
+          <div class="filter-row__head">
+            <label>Corpo (IMC)</label>
+            <output class="filter-row__value" id="bmiOut">Qualquer</output>
+          </div>
+          <div class="segmented" role="group" aria-label="Corpo" data-filter="bmi">
+            <button type="button" data-value="0" class="is-active">Qualquer</button>
+            <button type="button" data-value="1">Não obeso</button>
+            <button type="button" data-value="2">IMC saudável</button>
+          </div>
+          <div class="filter-row__meta"><span class="meter"><span id="mBmi"></span></span><span id="bmiMeta">—</span></div>
+        </div>
+
+        <details class="disclosure">
+          <summary>Cor/raça (opcional)</summary>
+          <div class="inner">
+            <p style="margin:0 0 10px;color:var(--muted);font-size:11.5px">Sem seleção = qualquer. Pode marcar mais de uma.</p>
+            <div class="toggle-grid" id="racaGroup">
+              <button type="button" class="chip-toggle" data-raca="0" aria-pressed="false">Branca</button>
+              <button type="button" class="chip-toggle" data-raca="1" aria-pressed="false">Preta</button>
+              <button type="button" class="chip-toggle" data-raca="3" aria-pressed="false">Parda</button>
+              <button type="button" class="chip-toggle" data-raca="2" aria-pressed="false">Amarela</button>
+              <button type="button" class="chip-toggle" data-raca="4" aria-pressed="false">Indígena</button>
+            </div>
+          </div>
+        </details>
+
+        <div class="filters__footer">
+          <div class="filters__presets">
+            <button type="button" class="preset" data-preset="basico">Só o básico</button>
+            <button type="button" class="preset" data-preset="padrao">Padrão</button>
+            <button type="button" class="preset" data-preset="exigente">Exigente</button>
+            <button type="button" class="preset" data-preset="xuxa">Modo Xuxa</button>
+          </div>
+          <button type="button" class="link-btn" id="reset">Limpar tudo</button>
+        </div>
+
+        <p class="show-note" style="text-align:left;margin-top:12px">O número atualiza sozinho. Sem clique, sem julgamento.</p>
+      </form>
+
+      <!-- ------------------------------------------------------ resultado -->
+      <aside class="results" id="resultados" aria-live="polite">
+        <div class="panel result-card" id="resultCard">
+          <div class="result-body" id="resultBody">
+            <p class="result-card__eyebrow">Sobreviveram ao seu filtro</p>
+            <div class="result-count mono" id="count">—</div>
+            <p class="result-sub" id="subCount">—</p>
+            <div class="result-odds">
+              <span class="result-odds__big mono" id="oneIn">1 em —</span>
+              <span class="result-odds__label" id="oneInLabel">da população de referência</span>
+            </div>
+
+            <p class="result-range" id="rangeText" hidden></p>
+            <figure class="xuxa-meme" id="xuxaMeme" hidden>
+              <img src="assets/img/xuxa-1986.jpg" alt="Recorte de revista de 1986 com Xuxa e a frase: No Brasil não há homem para mim">
+              <figcaption>
+                <span class="tag">Nível Xuxa de raridade</span>
+                <strong id="xuxaQuote">“No Brasil não há homem para mim.”</strong>
+                <span class="xuxa-credit" id="xuxaCredit">— Xuxa, 04/86</span>
+              </figcaption>
+            </figure>
+
+
+            <div class="score" aria-label="Nível de delírio">
+              <div class="score__head">
+                <span>Nível de delírio</span>
+                <span class="score__label" id="scoreLabel">—</span>
+              </div>
+              <div class="score__bars" id="scoreBars">
+                <span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <div class="score__scale"><span>tá fácil</span><span>modo Xuxa</span></div>
+            </div>
+
+            <div class="dots-box">
+              <div class="dots" id="dots" aria-hidden="true"></div>
+              <div class="dots-caption">
+                <span id="dotsCaption">cada ponto = 0,25% do grupo</span>
+                <span id="dotsCount">—</span>
+              </div>
+            </div>
+
+            <div class="insight" id="insight">Ajuste os filtros e o número muda na hora.</div>
+            <p class="ci" id="ci"></p>
+
+            <div class="actions">
+              <button class="btn" id="shareCard" type="button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8.6 13.5 15.4 17M15.4 7 8.6 10.5"/><circle cx="18" cy="6" r="2.4"/><circle cx="6" cy="12" r="2.4"/><circle cx="18" cy="18" r="2.4"/></svg>
+                Compartilhar card
+              </button>
+              <button class="btn btn--ghost" id="copyLink" type="button">Copiar link</button>
+              <button class="btn btn--ghost" id="download" type="button" title="Baixar os filtros e o resultado em JSON">Baixar cenário</button>
+            </div>
+            <p class="result-foot">Se o número for baixo, o card sai com meme incluso. <a href="metodologia.html">Veja como calculamos</a>.</p>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------- breakdown -->
+  <section class="wrap">
+    <div class="breakdown">
+      <div class="card">
+        <p class="kicker">Do total ao seu pool</p>
+        <h3>O massacre, em etapas</h3>
+        <p class="sub">Cada barra é o que sobra depois de mais um filtro. Sim, a barra final é do tamanho que parece.</p>
+        <div class="funnel" id="funnel"><p class="impact-empty">Calculando o estrago…</p></div>
+      </div>
+      <div class="card">
+        <p class="kicker">Custo de cada exigência</p>
+        <h3>Quem está te sabotando</h3>
+        <p class="sub">Se você abrisse mão de um único filtro, o pool cresceria assim. Sem julgamento.</p>
+        <div class="impact-list" id="impact"><p class="impact-empty">Descobrindo o culpado…</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------- geografia e idade -->
+  <section class="wrap">
+    <div class="two-col">
+      <div class="card">
+        <p class="kicker" id="geoKicker">Onde estão</p>
+        <h3 id="geoTitle">Os estados que ainda têm esperança</h3>
+        <p class="sub" id="geoSub">Pessoas que passam em todos os filtros, por unidade da federação.</p>
+        <div class="chart" id="geoChart"></div>
+      </div>
+      <div class="card">
+        <p class="kicker">Perfil do pool</p>
+        <h3>A idade dos sobreviventes</h3>
+        <p class="sub">O seu grupo filtrado (barras cheias) contra todas as pessoas do mesmo sexo e local.</p>
+        <div class="chart" id="ageChart"></div>
+        <div class="legend"><span><i style="background:var(--accent)"></i>seu pool</span><span><i style="background:var(--line)"></i>população de referência</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- --------------------------------------------------------- conta aberta -->
+  <section class="wrap">
+    <div class="card" id="conta">
+      <div class="section-head" style="margin-bottom:14px">
+        <div>
+          <p class="kicker">Conta aberta</p>
+          <h3 style="font-size:26px">A conta sem atalhos</h3>
+        </div>
+        <p>Sem caixa-preta: cada linha tem fonte, taxa de passagem e efeito no total.</p>
+      </div>
+      <div class="table-wrap">
+        <table class="audit" id="auditTable">
+          <thead>
+            <tr><th>Critério</th><th>Recorte aplicado</th><th class="num">Passam</th><th class="num">Pessoas restantes</th><th class="num">Efeito</th></tr>
+          </thead>
+          <tbody><tr><td colspan="5" style="color:var(--muted)">Abrindo a conta…</td></tr></tbody>
+        </table>
+      </div>
+      <details class="disclosure">
+        <summary>Como o número é calculado</summary>
+        <div class="inner">
+          <p style="margin-top:0">Cada registro da base representa uma pessoa (com peso amostral). O total é a soma dos pesos de quem passa em <b>todos</b> os filtros. Não multiplicamos percentuais: contamos pessoas — por isso a correlação entre renda, escolaridade, altura, idade e estado civil já está embutida.</p>
+          <p class="formula" id="formula">total = Σ pesoᵢ · 1[passa em todos os critérios]</p>
+          <p style="margin-bottom:0">A margem total combina a variância de amostragem (n_eff = (Σw)² / Σw²) com a variância entre as 5 imputações. <a href="metodologia.html">Detalhes na metodologia</a>.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section class="wrap" id="limites">
+    <div class="note-band">
+      <h3>Respira. O número é sobre características, não sobre você.</h3>
+      <p>
+        É uma estimativa de <b>quantas pessoas têm as características que você escolheu</b>, com base em pesquisas oficiais.
+        Não mede atração, interesse recíproco, disponibilidade, compatibilidade, gosto pessoal nem a sua chance de encontrar alguém.
+        Preferências mudam, pessoas mudam, e um pool grande pode ser mais difícil de navegar do que um pequeno.
+        Use como bússola, não como sentença — e ria de si mesmo no caminho.
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" id="fontes">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a class="brand" href="index.html" style="margin-bottom:14px">
+          <span class="brand__mark" aria-hidden="true"></span>
+          <span><span class="brand__name">Há homem <em>ou mulher</em> pra mim?</span><span class="brand__sub">no Brasil · dados do IBGE</span></span>
+        </a>
+        <p style="max-width:36ch">Uma calculadora de pool afetivo com dados públicos e método aberto. Feita com dados do IBGE e um pouco de autoestima ferida.</p>
+      </div>
+      <div>
+        <h4>Ferramenta</h4>
+        <a href="index.html">Calculadora</a>
+        <a href="metodologia.html">Metodologia</a>
+        <a href="dados.html">Explorar os dados</a>
+        <a href="dados.html#validacao">Validação</a>
+      </div>
+      <div>
+        <h4>Fontes</h4>
+        <a href="https://sidra.ibge.gov.br/tabela/9514" target="_blank" rel="noopener">Censo 2022 · população por idade e sexo</a>
+        <a href="https://www.ibge.gov.br/estatisticas/sociais/saude/9160-pesquisa-nacional-de-saude.html" target="_blank" rel="noopener">PNS 2013/2019 · altura, IMC e hábitos</a>
+        <a href="https://www.ibge.gov.br/estatisticas/sociais/trabalho/9173-pesquisa-nacional-por-amostra-de-domicilios-continua-trimestral.html" target="_blank" rel="noopener">PNAD Contínua 2025 · renda</a>
+        <a href="https://ftp.ibge.gov.br/Censos/Censo_Demografico_2022/Microdados_e_Areas_de_Ponderacao/" target="_blank" rel="noopener">Microdados do Censo 2022</a>
+      </div>
+      <div>
+        <h4>Transparência</h4>
+        <a href="metodologia.html#limitacoes">Limitações</a>
+        <a href="metodologia.html#reprodutibilidade">Código e reprodutibilidade</a>
+        <a href="dados.html#downloads">Baixar a base</a>
+        <a href="metodologia.html#equipe">Sobre o projeto</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Dados: IBGE (Censo 2022, PNS 2019, PNAD Contínua 2025). Estimativas próprias, não oficiais.</span>
+      <span>Criado por <a href="https://github.com/gilsonmjunior" target="_blank" rel="noopener">Gilson Junior</a> · método aberto e zero match garantido · <span id="year">2026</span></span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status"></div>
+
+<div class="mobile-bar" id="mobileBar">
+  <div><span class="mobile-bar__label" id="barLabel">seu veredito</span><b id="barCount">—</b></div>
+  <a class="btn" id="mobileShow" href="#resultados">Ver resultado</a>
+</div>
+
+<div class="loading-veil" id="veil">
+  <div class="loader">
+    <div class="loader__dots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <p>abrindo a base do censo</p>
+  </div>
+</div>
+
+<script type="module" src="assets/js/app.js"></script>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  const nt = document.getElementById('navToggle');
+  const mn = document.getElementById('mobileNav');
+  nt?.addEventListener('click', () => {
+    const open = mn.style.display === 'none';
+    mn.style.display = open ? 'flex' : 'none';
+    nt.setAttribute('aria-expanded', String(open));
+  });
+</script>
+</body>
+</html>

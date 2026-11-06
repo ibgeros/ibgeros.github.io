@@ -1,0 +1,6 @@
+raw/
+/data/
+data/*.pkl
+data/raw_sidra/
+__pycache__/
+.DS_Store
