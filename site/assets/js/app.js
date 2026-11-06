@@ -169,33 +169,8 @@ function renderNow() {
   last.computed = r;
   renderResult(r, prev);
   renderFunnel(r);
-  scheduleShareThumb(r);
   paintControls();
   syncURL();
-}
-
-let thumbSeq = 0;
-let thumbTimer = null;
-function scheduleShareThumb(r) {
-  const el = $("#shareThumb");
-  if (!el) return;
-  const seq = ++thumbSeq;
-  clearTimeout(thumbTimer);
-  thumbTimer = setTimeout(async () => {
-    try {
-      const canvas = await buildShareCard({
-        result: r, state, rare: isRare(r),
-        ufName: state.uf === "BR" ? "" : data.ufName[data.ufIndex.get(state.uf)],
-      });
-      if (seq !== thumbSeq) return;
-      const t = document.createElement("canvas");
-      t.width = 96; t.height = 120;
-      t.getContext("2d").drawImage(canvas, 0, 0, 96, 120);
-      el.src = t.toDataURL("image/png");
-    } catch (e) {
-      if (seq === thumbSeq) el.removeAttribute("src");
-    }
-  }, 320);
 }
 
 /* ------------------------------------------------------------- render */
@@ -511,43 +486,55 @@ function shareText() {
   return `Fiz o teste no "Há homem ou mulher pra mim no Brasil?" e ${total} ${alvo} de ${ageLabel} ${where} atendem aos meus critérios (${fmtPct(r.share)} de ${groupAll} de 20 a 79 anos, ${odds}).${meme} Faça o seu teste também: veja quantas pessoas atendem seus critérios em ${location.href}`;
 }
 
-async function doShareCard() {
+async function buildCardBlob() {
+  const r = last.computed;
+  if (!r) return null;
+  const canvas = await buildShareCard({
+    result: r, state, rare: isRare(r),
+    ufName: state.uf === "BR" ? "" : data.ufName[data.ufIndex.get(state.uf)],
+  });
+  return new Promise((res) => canvas.toBlob(res, "image/png"));
+}
+
+async function doShareLink() {
   const r = last.computed;
   if (!r) return;
-  toast("Gerando o card…");
-  try {
-    const canvas = await buildShareCard({
-      result: r, state, rare: isRare(r),
-      ufName: state.uf === "BR" ? "" : data.ufName[data.ufIndex.get(state.uf)],
-    });
-    const blob = await new Promise((res) => canvas.toBlob(res, "image/png"));
-    const file = new File([blob], "ha-homem-ou-mulher-pra-mim.png", { type: "image/png" });
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      try {
-        await navigator.share({
-          files: [file],
-          text: shareText(),
-          title: "Há homem ou mulher pra mim no Brasil?",
-        });
-        toast(isRare(r) ? "Card com meme enviado. De nada." : "Card enviado.");
-        return;
-      } catch (e) {
-        if (e && e.name === "AbortError") return;
-      }
+  const text = shareText();
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: "Há homem ou mulher pra mim no Brasil?",
+        text,
+      });
+      toast("Link enviado. Agora é só esperar o convite.");
+      return;
+    } catch (e) {
+      if (e && e.name === "AbortError") return;
     }
+  }
+  try {
+    await navigator.clipboard.writeText(text);
+    toast("Mensagem copiada. Agora é só colar no grupo.");
+  } catch (e) {
+    prompt("Copie a mensagem para compartilhar:", text);
+  }
+}
+
+async function downloadCard() {
+  try {
+    const blob = await buildCardBlob();
+    if (!blob) return;
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
     a.download = "ha-homem-ou-mulher-pra-mim.png";
     a.click();
     URL.revokeObjectURL(a.href);
-    try { await navigator.clipboard.writeText(shareText()); } catch (e) { /* sem clipboard */ }
-    toast(isRare(r) ? "Card com meme baixado. Mensagem copiada." : "Card baixado. Mensagem copiada.");
+    toast(isRare(last.computed) ? "Card com meme baixado." : "Card baixado.");
   } catch (e) {
     console.error(e);
     toast("Não deu para gerar o card. Tenta de novo?");
   }
 }
-
 
 function downloadJson() {
   const r = last.computed;
@@ -651,7 +638,8 @@ function wire() {
     });
   });
 
-  $("#shareCard").addEventListener("click", doShareCard);
+  $("#shareLink").addEventListener("click", doShareLink);
+  $("#downloadCard").addEventListener("click", downloadCard);
   $("#download").addEventListener("click", downloadJson);
 }
 
