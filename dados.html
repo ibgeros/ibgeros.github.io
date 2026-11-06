@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Os dados — Há homem ou mulher pra mim no Brasil?</title>
+<meta name="author" content="Gilson Junior">
+<meta name="description" content="Explore a base do site: pirâmide etária, renda, altura, escolaridade, estado civil, IMC, tabagismo, carro e casa própria — com validação contra as tabelas do IBGE.">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23f4f1ea' stroke='%2317140e' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%23b23a1e'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="index.html" aria-label="Há homem ou mulher pra mim no Brasil — página inicial">
+      <span class="brand__mark" aria-hidden="true"></span>
+      <span>
+        <span class="brand__name">Há homem <em>ou mulher</em> pra mim?</span>
+        <span class="brand__sub">no Brasil · dados do IBGE</span>
+      </span>
+    </a>
+    <nav class="site-nav" aria-label="Navegação principal">
+      <a href="index.html">Calculadora</a>
+      <a href="metodologia.html">Metodologia</a>
+      <a href="dados.html" class="is-active">Dados</a>
+      <a href="metodologia.html#fontes">Fontes</a>
+    </nav>
+    <span class="badge">Censo 2022 · PNS 2019 · PNAD 2025</span>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mobileNav">Menu</button>
+  </div>
+  <nav id="mobileNav" class="site-nav" style="display:none;padding:0 16px 12px;flex-wrap:wrap">
+    <a href="index.html">Calculadora</a>
+    <a href="metodologia.html">Metodologia</a>
+    <a href="#validacao">Validação</a>
+  </nav>
+</header>
+
+<main>
+  <section class="subhero">
+    <div class="wrap">
+      <p class="kicker">Os dados por dentro</p>
+      <h1>Os números <em>sem filtro</em>. (Com perdão do trocadilho.)</h1>
+      <p class="lede">
+        A mesma base da calculadora, aberta para inspeção. Se o veredito doeu, aqui você confere que
+        não foi perseguição: é o IBGE. Cada gráfico pode ser recalculado a partir de
+        <code>site/data/population.bin</code>.
+      </p>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-top:8px">
+    <div class="stat-strip">
+      <div><b data-m="registros">—</b><span>registros na amostra</span></div>
+      <div><b data-m="populacao">—</b><span>pessoas representadas (20–79)</span></div>
+      <div><b>27</b><span>unidades da federação</span></div>
+      <div><b>3</b><span>pesquisas oficiais do IBGE</span></div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="data-grid">
+      <div class="card">
+        <p class="kicker">Estrutura</p>
+        <h3>A pirâmide não mente</h3>
+        <p class="sub">População representada pela base, em milhões de pessoas.</p>
+        <div class="chart" id="pyramid"></div>
+        <div class="legend">
+          <span><i style="background:var(--blue)"></i>homens</span>
+          <span><i style="background:var(--accent)"></i>mulheres</span>
+        </div>
+      </div>
+      <div class="card">
+        <p class="kicker">Renda</p>
+        <h3>Quem ganha quanto</h3>
+        <p class="sub">Participação de cada faixa de renda mensal (todas as fontes, reais de 2025), por sexo.</p>
+        <div class="chart" id="rendaChart"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="data-grid data-grid--wide">
+      <div class="card">
+        <p class="kicker">Altura</p>
+        <h3>A altura da verdade</h3>
+        <p class="sub">Percentual de pessoas em cada faixa de altura (cm), por sexo. A altura é imputada a partir da PNS 2019, calibrada nos percentis oficiais.</p>
+        <div class="chart" id="alturaChart"></div>
+        <div class="legend">
+          <span><i style="background:var(--line)"></i>homens</span>
+          <span><i style="background:var(--accent)"></i>mulheres</span>
+        </div>
+      </div>
+      <div class="card">
+        <p class="kicker">Marcadores sociais</p>
+        <h3>Diploma, aliança e filhos</h3>
+        <p class="sub">Participação de cada categoria na população de 20 a 79 anos, por sexo.</p>
+        <div id="attrChart" style="display:grid;gap:18px"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="data-grid">
+      <div class="card">
+        <p class="kicker">Corpo e hábitos</p>
+        <h3>O pacote completo</h3>
+        <p class="sub">Percentual de pessoas em cada situação, por sexo.</p>
+        <div id="habitChart" style="display:grid;gap:18px"></div>
+      </div>
+      <div class="card">
+        <p class="kicker">Cor/raça</p>
+        <h3>Como a população se declara</h3>
+        <p class="sub">Classificação do Censo 2022, por sexo.</p>
+        <div id="raceChart" style="display:grid;gap:14px"></div>
+        <p class="sub" style="margin-top:16px;margin-bottom:0">A cor/raça é um filtro opcional na calculadora. O Censo usa cinco categorias; pessoas que não declaram entram como “parda” em uma fração residual mínima.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="card">
+      <p class="kicker">Território</p>
+      <h3>População de 20 a 79 anos por estado</h3>
+      <p class="sub">Soma dos pesos amostrais por unidade da federação.</p>
+      <div class="chart" id="ufChart"></div>
+    </div>
+  </section>
+
+  <section class="wrap" id="validacao">
+    <div class="card">
+      <div class="section-head" style="margin-bottom:10px">
+        <div>
+          <p class="kicker">Conferência</p>
+          <h3 style="font-size:26px">Base construída × tabela oficial</h3>
+        </div>
+        <p>As colunas “oficial” vêm das tabelas do SIDRA; “estimado” é o que a nossa base produz.</p>
+      </div>
+      <div class="table-wrap">
+        <table class="audit validation-table" id="validationTable">
+          <thead><tr><th>Indicador</th><th class="num">Estimado</th><th class="num">Oficial</th><th class="num">Diferença</th><th>Situação</th></tr></thead>
+          <tbody><tr><td colspan="5" style="color:var(--muted)">Carregando…</td></tr></tbody>
+        </table>
+      </div>
+      <p class="sub" style="margin-top:14px;margin-bottom:0">
+        A altura e a obesidade são calibradas nas tabelas oficiais e devem coincidir por construção;
+        os totais populacionais variam pelo sorteio da amostra. A diferença de cerca de 2 pontos
+        percentuais em carro reflete a defasagem da PNS (2019) e o crescimento da frota desde então.
+        A margem de erro da PNS e do Censo não é reproduzida linha a linha aqui — ela está documentada
+        nas notas técnicas do IBGE.
+      </p>
+    </div>
+  </section>
+
+  <section class="wrap" id="downloads">
+    <div class="data-grid">
+      <div class="card">
+        <p class="kicker">Auditoria</p>
+        <h3>Baixar e verificar</h3>
+        <p class="sub">Arquivos gerados pelo pipeline, com dicionário e hash.</p>
+        <div class="download-list">
+          <a class="download" href="data/amostra_20k.csv" download>
+            <span><b>Amostra legível (20 mil linhas)</b><span>CSV separado por ponto e vírgula · 2,4 MB</span></span>
+            <span class="arrow">↓</span>
+          </a>
+          <a class="download" href="data/population.bin" download>
+            <span><b>Base completa binária</b><span>226.692 registros · 20 bytes por pessoa</span></span>
+            <span class="arrow">↓</span>
+          </a>
+          <a class="download" href="data/fontes.json" target="_blank" rel="noopener">
+            <span><b>Catálogo de fontes e métodos</b><span>variáveis, tabelas, modelos e SHA-256</span></span>
+            <span class="arrow">↗</span>
+          </a>
+          <a class="download" href="data/meta.json" target="_blank" rel="noopener">
+            <span><b>Metadados e layout</b><span>níveis, totais, faixas e coeficientes</span></span>
+            <span class="arrow">↗</span>
+          </a>
+        </div>
+      </div>
+      <div class="card">
+        <p class="kicker">Fonte primária</p>
+        <h3>De onde tudo vem</h3>
+        <p class="sub">Links diretos para os microdados e tabelas do IBGE.</p>
+        <div class="download-list">
+          <a class="download" href="https://ftp.ibge.gov.br/Censos/Censo_Demografico_2022/Microdados_e_Areas_de_Ponderacao/Microdados_de_acesso_Publico/" target="_blank" rel="noopener">
+            <span><b>Censo 2022 — microdados públicos</b><span>CSV por UF, amostra</span></span><span class="arrow">↗</span>
+          </a>
+          <a class="download" href="https://ftp.ibge.gov.br/PNS/2013/Microdados/" target="_blank" rel="noopener">
+            <span><b>PNS 2013 — microdados</b><span>antropometria medida de 59.592 adultos</span></span><span class="arrow">↗</span>
+          </a>
+          <a class="download" href="https://ftp.ibge.gov.br/PNS/2019/Microdados/" target="_blank" rel="noopener">
+            <span><b>PNS 2019 — microdados</b><span>antropometria, fumo, fecundidade, bens</span></span><span class="arrow">↗</span>
+          </a>
+          <a class="download" href="https://ftp.ibge.gov.br/Trabalho_e_Rendimento/Pesquisa_Nacional_por_Amostra_de_Domicilios_continua/Anual/Microdados/Visita/Visita_1/Dados/" target="_blank" rel="noopener">
+            <span><b>PNAD Contínua 2025 — microdados</b><span>renda de todas as fontes</span></span><span class="arrow">↗</span>
+          </a>
+          <a class="download" href="https://sidra.ibge.gov.br/tabela/9514" target="_blank" rel="noopener">
+            <span><b>SIDRA — tabelas oficiais</b><span>9514 (população), 8171 (altura), 8168 (obesidade)</span></span><span class="arrow">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" id="fontes">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a class="brand" href="index.html" style="margin-bottom:14px">
+          <span class="brand__mark" aria-hidden="true"></span>
+          <span><span class="brand__name">Há homem <em>ou mulher</em> pra mim?</span><span class="brand__sub">no Brasil · dados do IBGE</span></span>
+        </a>
+        <p style="max-width:34ch">Uma calculadora de pool afetivo com dados públicos e método aberto. Projeto independente, sem fins comerciais.</p>
+      </div>
+      <div>
+        <h4>Ferramenta</h4>
+        <a href="index.html">Calculadora</a>
+        <a href="metodologia.html">Metodologia</a>
+        <a href="dados.html">Explorar os dados</a>
+        <a href="#validacao">Validação</a>
+      </div>
+      <div>
+        <h4>Fontes</h4>
+        <a href="https://sidra.ibge.gov.br/tabela/9514" target="_blank" rel="noopener">Censo 2022 · população por idade e sexo</a>
+        <a href="https://www.ibge.gov.br/estatisticas/sociais/saude/9160-pesquisa-nacional-de-saude.html" target="_blank" rel="noopener">PNS 2013/2019 · altura, IMC e hábitos</a>
+        <a href="https://www.ibge.gov.br/estatisticas/sociais/trabalho/9173-pesquisa-nacional-por-amostra-de-domicilios-continua-trimestral.html" target="_blank" rel="noopener">PNAD Contínua 2025 · renda</a>
+        <a href="https://ftp.ibge.gov.br/Censos/Censo_Demografico_2022/Microdados_e_Areas_de_Ponderacao/" target="_blank" rel="noopener">Microdados do Censo 2022</a>
+      </div>
+      <div>
+        <h4>Transparência</h4>
+        <a href="metodologia.html#limitacoes">Limitações</a>
+        <a href="metodologia.html#reprodutibilidade">Código e reprodutibilidade</a>
+        <a href="#downloads">Baixar a base</a>
+        <a href="metodologia.html#equipe">Sobre o projeto</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Dados: IBGE (Censo 2022, PNS 2019, PNAD Contínua 2025). Estimativas próprias, não oficiais.</span>
+      <span>Feito com método aberto · <span id="year">2026</span></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  const nt = document.getElementById('navToggle');
+  const mn = document.getElementById('mobileNav');
+  nt?.addEventListener('click', () => {
+    const open = mn.style.display === 'none';
+    mn.style.display = open ? 'flex' : 'none';
+    nt.setAttribute('aria-expanded', String(open));
+  });
+</script>
+<script type="module" src="assets/js/dados.js"></script>
+</body>
+</html>

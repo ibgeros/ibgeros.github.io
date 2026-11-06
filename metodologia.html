@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Metodologia — Há homem ou mulher pra mim no Brasil?</title>
+<meta name="author" content="Gilson Junior">
+<meta name="description" content="Como o site calcula o tamanho do pool: fontes do IBGE, modelos de imputação, validação e limitações.">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23f4f1ea' stroke='%2317140e' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%23b23a1e'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="index.html" aria-label="Há homem ou mulher pra mim no Brasil — página inicial">
+      <span class="brand__mark" aria-hidden="true"></span>
+      <span>
+        <span class="brand__name">Há homem <em>ou mulher</em> pra mim?</span>
+        <span class="brand__sub">no Brasil · dados do IBGE</span>
+      </span>
+    </a>
+    <nav class="site-nav" aria-label="Navegação principal">
+      <a href="index.html">Calculadora</a>
+      <a href="metodologia.html" class="is-active">Metodologia</a>
+      <a href="dados.html">Dados</a>
+      <a href="metodologia.html#fontes">Fontes</a>
+    </nav>
+    <span class="badge">Censo 2022 · PNS 2019 · PNAD 2025</span>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mobileNav">Menu</button>
+  </div>
+  <nav id="mobileNav" class="site-nav" style="display:none;padding:0 16px 12px;flex-wrap:wrap">
+    <a href="index.html">Calculadora</a>
+    <a href="dados.html">Dados</a>
+    <a href="#fontes">Fontes</a>
+  </nav>
+</header>
+
+<main>
+  <section class="subhero">
+    <div class="wrap"><div class="subhero__inner">
+      <p class="kicker">Metodologia e fontes</p>
+      <h1>A conta é séria. O método é <em>aberto</em>.</h1>
+      <p class="lede">
+        Por trás da piada tem microdado do IBGE, modelo documentado e validação. Se o número te
+        ofendeu, a culpa é da estatística — e um pouco dos seus filtros.
+      </p>
+    </div></div>
+  </section>
+
+  <div class="wrap">
+    <div class="metric-row">
+      <div class="metric"><b data-m="registros">226.692</b><span>registros na base sintética</span></div>
+      <div class="metric"><b data-m="populacao">143,9 mi</b><span>pessoas de 20 a 79 anos representadas</span></div>
+      <div class="metric"><b>27</b><span>unidades da federação</span></div>
+      <div class="metric"><b>6</b><span>atributos modelados (PNS e PNAD)</span></div>
+    </div>
+  </div>
+
+  <div class="wrap layout-doc">
+    <aside class="toc" aria-label="Índice">
+      <h5>Nesta página</h5>
+      <a href="#o-que-e">O que o número é</a>
+      <a href="#como-funciona">Como é construído</a>
+      <a href="#fontes">Fontes</a>
+      <a href="#modelos">Modelos de imputação</a>
+      <a href="#renda">Renda em reais de 2025</a>
+      <a href="#validacao">Validação</a>
+      <a href="#limitacoes">Limitações</a>
+      <a href="#reprodutibilidade">Reprodutibilidade</a>
+      <a href="#faq">Perguntas frequentes</a>
+      <a href="#equipe">Sobre o projeto</a>
+    </aside>
+
+    <article class="prose">
+      <h2 id="o-que-e">O que o número é</h2>
+      <p>
+        O site responde a uma pergunta estreita e verificável: <strong>quantas pessoas
+        de 20 a 79 anos, no Brasil (ou em um estado), têm simultaneamente as características que você
+        selecionou?</strong> O resultado aparece em valor absoluto (pessoas) e relativo (percentual do
+        grupo de referência e “1 em cada X”).
+      </p>
+      <p>
+        Ele <strong>não</strong> responde quantas dessas pessoas estariam disponíveis, se interessariam
+        por você, se seriam compatíveis, se você as encontraria ou se a atração surgiria. Também não
+        incorpora concorrência, redes sociais, aplicativos, distância dentro do estado ou preferências
+        declaradas. É um retrato da <em>oferta potencial</em> por características observáveis — nada mais,
+        nada menos.
+      </p>
+      <blockquote>
+        A pergunta é “quantas pessoas existem com estas características?”, não “qual é a minha chance?”.
+      </blockquote>
+      <h3>Por que esse tom?</h3>
+      <p>
+        Porque rir da própria lista de exigências é mais saudável do que tratá-la como diagnóstico.
+        O humor daqui é sobre a busca, sobre os aplicativos, sobre a gente — nunca sobre um grupo de
+        pessoas. Os dados, os modelos e as limitações continuam falando sério: a piada está na
+        embalagem, não no número.
+      </p>
+
+      <h2 id="como-funciona">Como é construído</h2>
+      <p>
+        Em vez de multiplicar percentuais — o que superestima a raridade quando os atributos são
+        correlacionados —, o site conta pessoas em uma base de microdados. Cada linha representa uma
+        pessoa com peso amostral, e o resultado é a soma dos pesos de quem passa em todos os filtros.
+      </p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step__num">01</div>
+          <div>
+            <h4>Base demográfica: Censo 2022</h4>
+            <p>Microdados da amostra do Censo 2022, com sexo, idade (faixas de 5 anos), cor/raça,
+              escolaridade, estado civil, filhos (mulheres), renda e condição de ocupação do domicílio.
+              Sorteamos uma amostra estratificada de <b data-m="registros">226.692</b> pessoas de 20 a 79 anos,
+              preservando os totais populacionais de cada UF × sexo × faixa de idade.</p>
+            <small>Pesos amostrais preservados; totais conferidos contra a tabela 9514 do SIDRA.</small>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step__num">02</div>
+          <div>
+            <h4>Atributos que o Censo não mede: PNS 2019</h4>
+            <p>Altura, IMC, tabagismo, filhos (homens) e existência de automóvel vêm da PNS 2019.
+              Esses atributos são imputados pessoa a pessoa com modelos condicionais documentados,
+              calibrados nas tabelas oficiais da própria PNS.</p>
+            <small>Altura medida: 64.209 adultos com informação completa (57.894 da PNS 2013 + 6.315 da PNS 2019); IMC: os mesmos 64.209.</small>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step__num">03</div>
+          <div>
+            <h4>Renda em reais de 2025</h4>
+            <p>A renda do Censo é de 2022. Para comparar com salários atuais, aplicamos um mapeamento
+              de quantis por sexo × escolaridade × faixa de idade usando a distribuição da PNAD
+              Contínua 2025.</p>
+            <small>O mapeamento preserva a posição relativa de cada pessoa e atualiza o nível da distribuição.</small>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step__num">04</div>
+          <div>
+            <h4>Contagem exata</h4>
+            <p>O navegador carrega os registros e soma os pesos de quem atende a todos os critérios.
+              Não há independência assumida nem “ajuste de correlação” arbitrário: a associação entre
+              renda, escolaridade, idade, estado civil, altura e os demais atributos já está nos dados.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step__num">05</div>
+          <div>
+            <h4>Validação e incerteza</h4>
+            <p>Cada distribuição imputada é comparada com a tabela oficial correspondente. O site
+              também reporta uma margem de erro aproximada, calculada a partir do tamanho efetivo da
+              amostra que passou nos filtros.</p>
+          </div>
+        </div>
+      </div>
+
+      <h2 id="fontes">Fontes</h2>
+      <p>Três pesquisas oficiais, todas públicas e baixáveis. Nenhum dado privado, de aplicativo ou
+        de rede social é usado.</p>
+
+      <div class="source-list">
+        <div class="source-card">
+          <span class="tag">Base · 2022</span>
+          <h4>Censo Demográfico 2022 — IBGE</h4>
+          <p>Universo e amostra. Fornece a estrutura demográfica, a escolaridade, o estado civil,
+            os filhos das mulheres, a renda e a condição de ocupação do domicílio.</p>
+          <ul>
+            <li><a href="https://sidra.ibge.gov.br/tabela/9514" target="_blank" rel="noopener">Tabela 9514 — população por sexo e idade</a></li>
+            <li><a href="https://ftp.ibge.gov.br/Censos/Censo_Demografico_2022/Microdados_e_Areas_de_Ponderacao/Microdados_de_acesso_Publico/" target="_blank" rel="noopener">Microdados públicos (CSV por UF)</a></li>
+          </ul>
+        </div>
+        <div class="source-card">
+          <span class="tag">Antropometria e hábitos · 2019</span>
+          <h4>Pesquisa Nacional de Saúde 2013 e 2019 — IBGE</h4>
+          <p>As duas edições com altura e peso <em>medidos</em> em amostra nacional. A PNS 2013 mediu
+            59.592 adultos; a PNS 2019, 6.672 (subamostra). Após dados completos, o modelo usa 64.209 registros
+            de altura e IMC. A PNS 2019 também fornece tabagismo, fecundidade masculina e posse de automóvel.</p>
+          <ul>
+            <li><a href="https://sidra.ibge.gov.br/tabela/8171" target="_blank" rel="noopener">Tabela 8171 — percentis de altura por sexo e idade</a></li>
+            <li><a href="https://sidra.ibge.gov.br/tabela/8168" target="_blank" rel="noopener">Tabela 8168 — excesso de peso e obesidade</a></li>
+            <li><a href="https://sidra.ibge.gov.br/tabela/8303" target="_blank" rel="noopener">Tabela 8303 — homens que já tiveram filhos</a></li>
+            <li><a href="https://ftp.ibge.gov.br/PNS/2013/Microdados/" target="_blank" rel="noopener">Microdados PNS 2013</a></li>
+            <li><a href="https://ftp.ibge.gov.br/PNS/2019/Microdados/" target="_blank" rel="noopener">Microdados e dicionário PNS 2019</a></li>
+          </ul>
+        </div>
+        <div class="source-card">
+          <span class="tag">Renda · 2025</span>
+          <h4>PNAD Contínua 2025 — IBGE</h4>
+          <p>Usada para atualizar a distribuição de renda do Censo 2022 para reais de 2025. O
+            rendimento considerado é o habitual de todas as fontes.</p>
+          <ul>
+            <li><a href="https://ftp.ibge.gov.br/Trabalho_e_Rendimento/Pesquisa_Nacional_por_Amostra_de_Domicilios_continua/Anual/Microdados/Visita/Visita_1/Dados/" target="_blank" rel="noopener">Microdados anuais — visita 1</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <h2 id="modelos">Modelos de imputação</h2>
+      <p>Nenhum modelo é uma caixa-preta: todos são condicionais, estimados nos microdados da PNS
+        2019 e calibrados para reproduzir uma tabela oficial. A tabela abaixo resume o que entra em
+        cada atributo.</p>
+      <div class="table-wrap">
+        <table class="audit">
+          <thead><tr><th>Atributo</th><th>Fonte</th><th>Método</th></tr></thead>
+          <tbody>
+            <tr><td><b>Altura</b></td><td>PNS 2013 + PNS 2019 + tabela 8171</td><td>Cópula gaussiana com margem oficial de 2019 (P5/P50/P95) e ordenação por escolaridade, renda e região, com efeito de ano.</td></tr>
+            <tr><td><b>IMC</b></td><td>PNS 2019 + tabela 8168</td><td>Regressão de log(IMC) e deslocamento para reproduzir a obesidade oficial por sexo e faixa de idade.</td></tr>
+            <tr><td><b>Tabagismo</b></td><td>PNS 2019 (P050)</td><td>Taxas suavizadas por sexo × idade × escolaridade; sorteio Bernoulli.</td></tr>
+            <tr><td><b>Filhos (homens)</b></td><td>PNS 2019 (Z001) + tabela 8303</td><td>Taxas por idade × estado civil × escolaridade, calibradas por faixa de idade.</td></tr>
+            <tr><td><b>Automóvel</b></td><td>PNS 2019 (A018027)</td><td>Taxas por região × decil de renda domiciliar per capita × urbano/rural.</td></tr>
+            <tr><td><b>Renda 2025</b></td><td>Censo 2022 + PNAD 2025</td><td>Mapeamento de quantis por sexo × escolaridade × faixa de idade.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Por que altura é modelada, e não lida diretamente?</h3>
+      <p>
+        A PNS 2019 mediu altura e peso de 6.672 adultos — uma amostra pequena para estimar
+        gradientes regionais e socioeconômicos. Por isso somamos os 59.592 adultos medidos na
+        PNS 2013, com um efeito de ano no modelo, e ancoramos o nível na margem oficial de 2019.
+        A distribuição oficial de altura
+        (P5, P50 e P95 por sexo e faixa de idade) e usa a subamostra medida para estimar o quanto a
+        altura varia com escolaridade, renda e região. O resultado é uma altura plausível para cada
+        pessoa, com a margem oficial garantida.
+      </p>
+      <p>
+        A consequência é que a altura é uma <strong>estimativa estatística</strong>, não uma medição
+        individual. Em especial, a variação regional vem de um efeito médio por macrorregião estimado
+        nessa subamostra — não de dezenas de milhares de medições por estado.
+      </p>
+
+      <h2 id="renda">Renda em reais de 2025</h2>
+      <p>
+        O Censo 2022 capta renda nominal daquele ano. Para que “R$ 5.000” signifique o mesmo que
+        significa hoje, cada registro do Censo foi mapeado para o quantil correspondente da
+        distribuição da PNAD Contínua 2025, dentro do mesmo sexo, escolaridade e faixa de idade.
+      </p>
+      <p>
+        O procedimento preserva a ordem das rendas dentro de cada grupo e atualiza o formato da
+        distribuição. A mediana geral sobe de cerca de R$ 1.212 (2022) para R$ 1.600 (2025) — um
+        aumento de 32%, consistente com a inflação do período e com a recuperação do mercado de trabalho.
+      </p>
+
+      <h3>O que é o “nível de delírio”</h3>
+      <p>
+        A escala de 0 a 10 é uma tradução logarítmica da fração de pessoas que passa em todos os
+        filtros: 0 significa um pool amplo; 10, uma combinação raríssima. O nome é piada; a conta
+        não. Ela serve para dar uma leitura rápida do resultado, não para julgar se os critérios são
+        “razoáveis”. Duas pessoas com o mesmo score podem ter pools muito diferentes dependendo do
+        estado e do sexo escolhidos.
+      </p>
+
+      <h2 id="validacao">Validação</h2>
+      <p>
+        A base é comparada com as fontes oficiais em três frentes: totais populacionais por UF e sexo,
+        distribuição de altura por sexo e faixa de idade e prevalência de obesidade. Os percentis de
+        altura e as taxas de obesidade são reproduzidos por construção; os totais populacionais
+        ficam dentro do erro amostral do sorteio.
+      </p>
+      <p><a href="dados.html#validacao">Ver a tabela de validação completa →</a></p>
+
+      <h2 id="limitacoes">Limitações</h2>
+      <ul>
+        <li><strong>Preferências não são observáveis.</strong> O site mede características, não gostos,
+          disponibilidade, interesse ou compatibilidade.</li>
+        <li><strong>Faixas de idade de 5 anos.</strong> Os microdados públicos do Censo 2022 não
+          divulgam idade exata; por isso o recorte começa em 20 anos e usa faixas quinquenais.
+          Pessoas de 18 e 19 anos não entram.</li>
+        <li><strong>Altura, IMC, fumo, filhos de homens e carro são imputados.</strong> As margens
+          oficiais são preservadas, mas a associação com outros atributos tem incerteza.</li>
+        <li><strong>Alguns atributos vêm de 2019.</strong> Altura, IMC, tabagismo, fecundidade
+          masculina e carro usam a PNS 2019, a pesquisa mais recente com esses dados medidos. Tendências
+          posteriores (queda do fumo, aumento da obesidade e da frota) não estão incorporadas.</li>
+        <li><strong>Carro e casa própria são do domicílio.</strong> “Tem carro” significa que existe
+          automóvel no domicílio; “casa própria” significa que algum morador é proprietário do imóvel.
+          Não são bens individuais.</li>
+        <li><strong>Renda é mensal e de todas as fontes.</strong> Inclui trabalho, aposentadoria,
+          aluguel e programas sociais. Não é renda per capita nem patrimônio.</li>
+        <li><strong>Estado civil em três grupos.</strong> Em união, já viveu em união, nunca viveu.
+          O Censo 2022 público não distingue viúvo de divorciado.</li>
+        <li><strong>Recorte heterossexual e binário.</strong> O filtro de sexo usa homem/mulher porque
+          as pesquisas do IBGE estruturam a amostra assim. O site não estima pools LGBTQIA+.</li>
+        <li><strong>Não há competição nem geografia fina.</strong> O universo é o estado inteiro;
+          cidade, bairro, círculo social e concorrência ficam de fora.</li>
+        <li><strong>É uma estimativa amostral.</strong> Combinações muito raras têm margem de erro
+          grande e podem aparecer com zero registros na amostra. A margem exibida combina amostragem
+          e 5 imputações, mas <b>não</b> inclui a incerteza dos coeficientes dos modelos nem a
+          dependência entre atributos que não está nos dados.</li>
+      </ul>
+
+      <h2 id="reprodutibilidade">Reprodutibilidade</h2>
+      <p>
+        O plano de evolução estatística — modelos hierárquicos bayesianos, MRP municipal,
+        cópulas e novas fontes — está em
+        <a href="docs/estimativas-v2.md">Estimativas v2: métodos e fontes</a>.
+      </p>
+      <p>Todo o processo é feito por scripts versionados no projeto. Para reconstruir a base:</p>
+      <pre><code>python3 pipeline/01_fetch_sidra.py     # tabelas do SIDRA (cache em data/raw_sidra)
+python3 pipeline/02_build_censo.py     # amostra do Censo 2022
+python3 pipeline/03_extract_pns.py     # microdados da PNS 2019
+python3 pipeline/03b_extract_pnad.py   # microdados da PNAD 2025
+python3 pipeline/04_impute.py          # modelos + population.bin
+python3 pipeline/05_export.py          # artefatos do site
+python3 serve.py                       # http://127.0.0.1:8765</code></pre>
+      <p>
+        Os arquivos brutos não são redistribuídos no repositório; os scripts apontam para os
+        endereços oficiais do IBGE. O arquivo <code>site/data/fontes.json</code> registra fontes,
+        variáveis, métodos, validação e o hash SHA-256 da base gerada.
+      </p>
+
+      <h2 id="faq">Perguntas frequentes</h2>
+      <div class="faq">
+        <details>
+          <summary>Por que não basta multiplicar os percentuais?</summary>
+          <p>Porque os atributos são correlacionados. Pessoas com ensino superior ganham mais, e
+            altura também se associa a escolaridade e renda. Multiplicar taxas independentes
+            superestima a raridade. Aqui contamos pessoas em uma base com todas as variáveis juntas.</p>
+        </details>
+        <details>
+          <summary>O resultado é “cientificamente exato”?</summary>
+          <p>É uma estimativa populacional com margem de erro, baseada em pesquisas oficiais. A
+            definição dos filtros é sua; a tradução em pessoas é nossa melhor aproximação auditável.</p>
+        </details>
+        <details>
+          <summary>Por que começa em 20 anos?</summary>
+          <p>Os microdados públicos do Censo 2022 divulgam idade em faixas quinquenais. A faixa
+            disponível mais próxima começa em 20 anos. Incluir 18–19 exigiria uma fração arbitrária
+            da faixa 15–19, o que distorceria os atributos.</p>
+        </details>
+        <details>
+          <summary>“1 em X” considera que a pessoa está disponível?</summary>
+          <p>Não. O X é apenas o inverso da proporção de pessoas com as características escolhidas.
+            Disponibilidade, interesse e compatibilidade não estão nos dados.</p>
+        </details>
+        <details>
+          <summary>Isso vale para aplicativos de relacionamento?</summary>
+          <p>Só como referência. O pool de um aplicativo é muito menor, enviesado por idade,
+            escolaridade, cidade e algoritmo. O número aqui é o limite populacional, não o mercado
+            que você acessa.</p>
+        </details>
+        <details>
+          <summary>Vocês guardam minhas respostas?</summary>
+          <p>Não. O cálculo roda inteiramente no seu navegador. Não há login, analytics ou envio de
+            filtros para servidor. O cenário pode ser compartilhado por link, mas os parâmetros
+            ficam na URL do seu navegador.</p>
+        </details>
+      </div>
+
+      <h2 id="equipe">Sobre o projeto</h2>
+      <p>
+        Projeto independente, sem fins comerciais, criado por <b>Gilson Junior</b> e inspirado na ideia do
+        <a href="https://delusionmeter.com" target="_blank" rel="noopener">Delusion Meter</a>, mas
+        construído do zero para o Brasil com microdados do IBGE. Código, dados derivados e métodos
+        são abertos para inspeção e reprodução.
+      </p>
+      <p>
+        A imagem de humor usada no card compartilhável é um recorte de revista de 1986, enviado
+        pelo autor do projeto e usado como meme nostálgico, sem fins comerciais. Ela aparece apenas
+        quando o resultado é realmente raro — o que, convenhamos, é o mínimo.
+      </p>
+      <p>
+        Se você encontrar um erro de cálculo, uma fonte desatualizada ou uma definição ambígua,
+        a resposta certa é corrigir a conta — não esconder o número. O compromisso é com a
+        rastreabilidade.
+      </p>
+    </article>
+  </div>
+</main>
+
+<footer class="site-footer" id="fontes">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a class="brand" href="index.html" style="margin-bottom:14px">
+          <span class="brand__mark" aria-hidden="true"></span>
+          <span><span class="brand__name">Há homem <em>ou mulher</em> pra mim?</span><span class="brand__sub">no Brasil · dados do IBGE</span></span>
+        </a>
+        <p style="max-width:34ch">Uma calculadora de pool afetivo com dados públicos e método aberto. Projeto independente, sem fins comerciais.</p>
+      </div>
+      <div>
+        <h4>Ferramenta</h4>
+        <a href="index.html">Calculadora</a>
+        <a href="metodologia.html">Metodologia</a>
+        <a href="dados.html">Explorar os dados</a>
+        <a href="dados.html#validacao">Validação</a>
+      </div>
+      <div>
+        <h4>Fontes</h4>
+        <a href="https://sidra.ibge.gov.br/tabela/9514" target="_blank" rel="noopener">Censo 2022 · população por idade e sexo</a>
+        <a href="https://www.ibge.gov.br/estatisticas/sociais/saude/9160-pesquisa-nacional-de-saude.html" target="_blank" rel="noopener">PNS 2013/2019 · altura, IMC e hábitos</a>
+        <a href="https://www.ibge.gov.br/estatisticas/sociais/trabalho/9173-pesquisa-nacional-por-amostra-de-domicilios-continua-trimestral.html" target="_blank" rel="noopener">PNAD Contínua 2025 · renda</a>
+        <a href="https://ftp.ibge.gov.br/Censos/Censo_Demografico_2022/Microdados_e_Areas_de_Ponderacao/" target="_blank" rel="noopener">Microdados do Censo 2022</a>
+      </div>
+      <div>
+        <h4>Transparência</h4>
+        <a href="#limitacoes">Limitações</a>
+        <a href="#reprodutibilidade">Código e reprodutibilidade</a>
+        <a href="dados.html#downloads">Baixar a base</a>
+        <a href="#equipe">Sobre o projeto</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Dados: IBGE (Censo 2022, PNS 2019, PNAD Contínua 2025). Estimativas próprias, não oficiais.</span>
+      <span>Feito com método aberto · <span id="year">2026</span></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  const nt = document.getElementById('navToggle');
+  const mn = document.getElementById('mobileNav');
+  nt?.addEventListener('click', () => {
+    const open = mn.style.display === 'none';
+    mn.style.display = open ? 'flex' : 'none';
+    nt.setAttribute('aria-expanded', String(open));
+  });
+</script>
+<script type="module" src="assets/js/doc.js"></script>
+</body>
+</html>

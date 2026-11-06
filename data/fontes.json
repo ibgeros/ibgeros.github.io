@@ -1,0 +1,372 @@
+{
+ "gerado_em": "2026-11-06",
+ "universo": {
+  "descricao": "Pessoas de 20 a 79 anos residentes no Brasil",
+  "populacao": 143912701.56817514,
+  "registros": 226692,
+  "idade_min": 20,
+  "idade_max": 79
+ },
+ "fontes": [
+  {
+   "id": "censo2022",
+   "nome": "Censo Demográfico 2022",
+   "orgao": "IBGE",
+   "papel": "Base demográfica: sexo, idade, cor/raça, escolaridade, estado civil, filhos (mulheres), renda, condição de ocupação do domicílio e pesos amostrais.",
+   "periodo": "2022",
+   "microdados": "https://ftp.ibge.gov.br/Censos/Censo_Demografico_2022/Microdados_e_Areas_de_Ponderacao/Microdados_de_acesso_Publico/",
+   "layout": "https://ftp.ibge.gov.br/Censos/Censo_Demografico_2022/Microdados_e_Areas_de_Ponderacao/Documentacao/Layout%20e%20dicion%C3%A1rio/Layout%20Microdados%20CD2022%20-%20acesso%20P%C3%BAblico.xlsx",
+   "tabelas": [
+    {
+     "id": "9514",
+     "nome": "População residente, por sexo, idade e forma de declaração da idade",
+     "url": "https://sidra.ibge.gov.br/tabela/9514"
+    }
+   ],
+   "variaveis": [
+    [
+     "P0150",
+     "Sexo"
+    ],
+    [
+     "P0180",
+     "Idade (faixas de 5 anos)"
+    ],
+    [
+     "P0210",
+     "Cor ou raça"
+    ],
+    [
+     "P0280",
+     "Convivência com cônjuge/companheiro"
+    ],
+    [
+     "P0340",
+     "Filhos nascidos vivos (mulheres)"
+    ],
+    [
+     "P0760",
+     "Nível de instrução"
+    ],
+    [
+     "P1110",
+     "Rendimento em todas as fontes"
+    ],
+    [
+     "D0190",
+     "Condição de ocupação do domicílio"
+    ],
+    [
+     "D0360",
+     "Rendimento domiciliar per capita"
+    ],
+    [
+     "P0110",
+     "Peso amostral"
+    ]
+   ]
+  },
+  {
+   "id": "pns2013",
+   "nome": "Pesquisa Nacional de Saúde 2013",
+   "orgao": "IBGE",
+   "papel": "Antropometria medida de 59.592 adultos. Usada em conjunto com a PNS 2019 para estimar os gradientes socioeconômicos e regionais de altura e IMC com muito menos ruído.",
+   "periodo": "2013",
+   "microdados": "https://ftp.ibge.gov.br/PNS/2013/Microdados/Dados/PNS_2013.zip",
+   "dicionario": "https://ftp.ibge.gov.br/PNS/2013/Microdados/Documentacao/Dicionario_e_input_20200930.zip",
+   "variaveis": [
+    [
+     "W00203",
+     "Altura medida (cm)"
+    ],
+    [
+     "W00103",
+     "Peso medido (kg)"
+    ],
+    [
+     "VDF003",
+     "Rendimento domiciliar per capita"
+    ],
+    [
+     "V00291",
+     "Peso amostral"
+    ]
+   ]
+  },
+  {
+   "id": "pns2019",
+   "nome": "Pesquisa Nacional de Saúde 2019",
+   "orgao": "IBGE",
+   "papel": "Altura e IMC medidos na subamostra de 2019 (6.672 adultos), tabagismo, filhos (homens) e existência de automóvel no domicílio.",
+   "periodo": "2019",
+   "microdados": "https://ftp.ibge.gov.br/PNS/2019/Microdados/Dados/PNS_2019_20220525.zip",
+   "dicionario": "https://ftp.ibge.gov.br/PNS/2019/Microdados/Documentacao/Dicionario_e_input_20220530.zip",
+   "tabelas": [
+    {
+     "id": "8171",
+     "nome": "Percentis da altura das pessoas de 15 anos ou mais, por sexo e grupo de idade",
+     "url": "https://sidra.ibge.gov.br/tabela/8171"
+    },
+    {
+     "id": "8168",
+     "nome": "Pessoas de 18 anos ou mais com excesso de peso ou obesidade, por sexo e grupo de idade",
+     "url": "https://sidra.ibge.gov.br/tabela/8168"
+    },
+    {
+     "id": "8303",
+     "nome": "Homens de 15 anos ou mais que já tiveram filhos, por grupo de idade",
+     "url": "https://sidra.ibge.gov.br/tabela/8303"
+    }
+   ],
+   "variaveis": [
+    [
+     "W00203",
+     "Altura medida (cm)"
+    ],
+    [
+     "W00103",
+     "Peso medido (kg)"
+    ],
+    [
+     "P050",
+     "Fuma atualmente"
+    ],
+    [
+     "Z001",
+     "Já teve/tem filhos (homens)"
+    ],
+    [
+     "A018027",
+     "Existe automóvel no domicílio"
+    ],
+    [
+     "VDF003",
+     "Rendimento domiciliar per capita"
+    ],
+    [
+     "V00291",
+     "Peso amostral do morador selecionado"
+    ],
+    [
+     "V00301",
+     "Peso amostral da antropometria"
+    ]
+   ]
+  },
+  {
+   "id": "pnad2025",
+   "nome": "PNAD Contínua — microdados anuais 2025",
+   "orgao": "IBGE",
+   "papel": "Atualiza a distribuição de renda do Censo 2022 para reais de 2025, por sexo, escolaridade e faixa de idade.",
+   "periodo": "2025 (visita 1)",
+   "microdados": "https://ftp.ibge.gov.br/Trabalho_e_Rendimento/Pesquisa_Nacional_por_Amostra_de_Domicilios_continua/Anual/Microdados/Visita/Visita_1/Dados/",
+   "variaveis": [
+    [
+     "VD4046",
+     "Rendimento habitual de todas as fontes"
+    ],
+    [
+     "V1032",
+     "Peso amostral calibrado"
+    ]
+   ]
+  }
+ ],
+ "modelos": [
+  {
+   "atributo": "Altura",
+   "fonte": "PNS 2013 + PNS 2019 (64.209 adultos com altura medida) + tabela 8171",
+   "metodo": "Cópula gaussiana. A margem oficial de 2019 (P5, P50, P95 por sexo e grupo de idade) é preservada; a ordem relativa vem de uma regressão da altura padronizada contra escolaridade, renda domiciliar per capita e região, com efeito de ano. A PNS 2013 (57.904 adultos) dá precisão aos gradientes; a PNS 2019 ancora o nível."
+  },
+  {
+   "atributo": "IMC",
+   "fonte": "PNS 2013 + PNS 2019 (IMC medido, 64.209 adultos) + tabela 8168",
+   "metodo": "Regressão de log(IMC) contra idade, escolaridade, renda, sexo e ano; deslocamento por grupo para reproduzir exatamente a prevalência oficial de obesidade de 2019 por sexo e faixa de idade."
+  },
+  {
+   "atributo": "Tabagismo",
+   "fonte": "PNS 2019 (P050)",
+   "metodo": "Taxas por sexo × faixa de idade × escolaridade, com suavização empírico-bayesiana (α = 20) e sorteio Bernoulli."
+  },
+  {
+   "atributo": "Filhos (homens)",
+   "fonte": "PNS 2019 (Z001, n = 42.799 homens 15+)",
+   "metodo": "Taxas por faixa de idade × estado civil × escolaridade, suavizadas e calibradas por faixa de idade na tabela 8303. Mulheres usam o número de filhos nascidos vivos do Censo 2022."
+  },
+  {
+   "atributo": "Automóvel no domicílio",
+   "fonte": "PNS 2019 (A018027)",
+   "metodo": "Taxas por região × decil de renda domiciliar per capita × urbano/rural, suavizadas (α = 25)."
+  },
+  {
+   "atributo": "Renda em reais de 2025",
+   "fonte": "Censo 2022 + PNAD Contínua 2025",
+   "metodo": "Mapeamento de quantis por sexo × escolaridade × faixa de idade: cada pessoa mantém sua posição relativa, mas a distribuição passa a ser a da PNAD 2025."
+  }
+ ],
+ "validacao": {
+  "populacao_uf_sexo": {
+   "total_estimado_mi": 143.91270156817512,
+   "total_censo_mi": 143.988599,
+   "erro_medio_abs_pct": 0.1287791337801175,
+   "erro_max_abs_pct": 0.7484946126940839
+  },
+  "altura_percentis": {
+   "0-18-24": {
+    "estimado": [
+     161.2,
+     173.9,
+     184.3
+    ],
+    "oficial": [
+     161.2,
+     173.9,
+     184.2
+    ]
+   },
+   "0-25-39": {
+    "estimado": [
+     161.1,
+     173.2,
+     185.0
+    ],
+    "oficial": [
+     161.0,
+     173.4,
+     185.0
+    ]
+   },
+   "0-40-59": {
+    "estimado": [
+     158.2,
+     171.7,
+     184.3
+    ],
+    "oficial": [
+     158.1,
+     171.5,
+     184.2
+    ]
+   },
+   "0-60+": {
+    "estimado": [
+     155.8,
+     168.0,
+     179.0
+    ],
+    "oficial": [
+     155.7,
+     168.0,
+     179.0
+    ]
+   },
+   "1-18-24": {
+    "estimado": [
+     151.0,
+     160.0,
+     169.9
+    ],
+    "oficial": [
+     151.2,
+     160.0,
+     169.9
+    ]
+   },
+   "1-25-39": {
+    "estimado": [
+     150.9,
+     161.3,
+     171.6
+    ],
+    "oficial": [
+     150.9,
+     161.0,
+     171.6
+    ]
+   },
+   "1-40-59": {
+    "estimado": [
+     146.8,
+     158.6,
+     170.0
+    ],
+    "oficial": [
+     146.7,
+     158.5,
+     170.0
+    ]
+   },
+   "1-60+": {
+    "estimado": [
+     143.0,
+     154.4,
+     166.8
+    ],
+    "oficial": [
+     142.9,
+     154.1,
+     166.6
+    ]
+   }
+  },
+  "obesidade": {
+   "0-18-24": {
+    "estimado": 7.9,
+    "oficial": 7.9
+   },
+   "0-25-39": {
+    "estimado": 19.3,
+    "oficial": 19.3
+   },
+   "0-40-59": {
+    "estimado": 30.2,
+    "oficial": 30.2
+   },
+   "0-60+": {
+    "estimado": 21.2,
+    "oficial": 21.2
+   },
+   "1-18-24": {
+    "estimado": 13.5,
+    "oficial": 13.5
+   },
+   "1-25-39": {
+    "estimado": 27.9,
+    "oficial": 27.9
+   },
+   "1-40-59": {
+    "estimado": 38.0,
+    "oficial": 38.0
+   },
+   "1-60+": {
+    "estimado": 27.5,
+    "oficial": 27.5
+   }
+  },
+  "fumo": {
+   "estimado": 12.8,
+   "pns": 12.8
+  },
+  "carro": {
+   "estimado": 51.0,
+   "pns": 53.1
+  },
+  "casa_propria": {
+   "estimado": 73.9,
+   "oficial": 73.9
+  },
+  "sem_filhos": {
+   "homens_pct": 31.3,
+   "mulheres_pct": 26.9
+  }
+ },
+ "arquivos": {
+  "population.bin": {
+   "sha256": "cb8a21b9765f6a09f3b26e51228552a7f50740a358d5f8fc5499588ec6ecb710",
+   "layout": "56 bytes por registro: bloco base de 20 B (uf, sexo, faixa, raça, escolaridade, estado civil, filhos, fuma, imc, carro, casa, altura, renda f32, peso f32) + 4 blocos de imputação de 9 B (altura, imc, fuma, filhos, carro, renda f32)"
+  },
+  "meta.json": {
+   "sha256": "83ecd8275ac06d0c6af3e40d73d62327ce3e34c5fa6ecd355cd822057e695e37"
+  }
+ }
+}
