@@ -169,8 +169,33 @@ function renderNow() {
   last.computed = r;
   renderResult(r, prev);
   renderFunnel(r);
+  scheduleShareThumb(r);
   paintControls();
   syncURL();
+}
+
+let thumbSeq = 0;
+let thumbTimer = null;
+function scheduleShareThumb(r) {
+  const el = $("#shareThumb");
+  if (!el) return;
+  const seq = ++thumbSeq;
+  clearTimeout(thumbTimer);
+  thumbTimer = setTimeout(async () => {
+    try {
+      const canvas = await buildShareCard({
+        result: r, state, rare: isRare(r),
+        ufName: state.uf === "BR" ? "" : data.ufName[data.ufIndex.get(state.uf)],
+      });
+      if (seq !== thumbSeq) return;
+      const t = document.createElement("canvas");
+      t.width = 96; t.height = 120;
+      t.getContext("2d").drawImage(canvas, 0, 0, 96, 120);
+      el.src = t.toDataURL("image/png");
+    } catch (e) {
+      if (seq === thumbSeq) el.removeAttribute("src");
+    }
+  }, 320);
 }
 
 /* ------------------------------------------------------------- render */
@@ -471,7 +496,7 @@ function shareText() {
     : `menos de ${fmtCompact(r.upper95 || 0)}`;
   const odds = r.match > 0 ? fmtOneIn(r.oneIn) : "quase nenhum";
   const meme = isRare(r) ? " E ainda saiu com meme." : "";
-  return `Fiz o teste no "Há homem ou mulher pra mim no Brasil?" e ${total} ${alvo} ${where} atendem aos meus critérios (${fmtPct(r.share)} do grupo, ${odds}).${meme} Veja quantas pessoas atendem seus critérios: ${location.href}`;
+  return `Fiz o teste no "Há homem ou mulher pra mim no Brasil?" e ${total} ${alvo} ${where} atendem aos meus critérios (${fmtPct(r.share)} do grupo, ${odds}).${meme} Faça o seu teste também: veja quantas pessoas atendem seus critérios em ${location.href}`;
 }
 
 async function doShareCard() {
@@ -511,14 +536,6 @@ async function doShareCard() {
   }
 }
 
-async function copyLink() {
-  try {
-    await navigator.clipboard.writeText(location.href);
-    toast("Link copiado. Agora é com você.");
-  } catch {
-    prompt("Copie o link do seu veredito:", location.href);
-  }
-}
 
 function downloadJson() {
   const r = last.computed;
@@ -623,7 +640,6 @@ function wire() {
   });
 
   $("#shareCard").addEventListener("click", doShareCard);
-  $("#copyLink").addEventListener("click", copyLink);
   $("#download").addEventListener("click", downloadJson);
 }
 
