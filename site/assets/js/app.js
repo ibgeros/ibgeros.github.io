@@ -461,8 +461,17 @@ function renderAudit(r, gender, where) {
 /* --------------------------------------------------------------- ações */
 function shareText() {
   const r = last.computed;
+  if (!r) return "";
   const alvo = state.sex === 0 ? "homens" : "mulheres";
-  return `${fmtInt(r.match)} ${alvo} no Brasil atendem ao meu pacote (${fmtPct(r.share)} do grupo, ${fmtOneIn(r.oneIn)}). Descubra o seu: ${location.href}`;
+  const where = state.uf === "BR"
+    ? "no Brasil"
+    : `em ${data.ufName[data.ufIndex.get(state.uf)]}`;
+  const total = r.match > 0
+    ? fmtInt(r.match)
+    : `menos de ${fmtCompact(r.upper95 || 0)}`;
+  const odds = r.match > 0 ? fmtOneIn(r.oneIn) : "quase nenhum";
+  const meme = isRare(r) ? " E ainda saiu com meme." : "";
+  return `Fiz o teste no "Há homem ou mulher pra mim no Brasil?" e ${total} ${alvo} ${where} atendem aos meus critérios (${fmtPct(r.share)} do grupo, ${odds}).${meme} Veja quantas pessoas atendem seus critérios: ${location.href}`;
 }
 
 async function doShareCard() {
@@ -478,7 +487,11 @@ async function doShareCard() {
     const file = new File([blob], "ha-homem-ou-mulher-pra-mim.png", { type: "image/png" });
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
       try {
-        await navigator.share({ files: [file], text: shareText() });
+        await navigator.share({
+          files: [file],
+          text: shareText(),
+          title: "Há homem ou mulher pra mim no Brasil?",
+        });
         toast(isRare(r) ? "Card com meme enviado. De nada." : "Card enviado.");
         return;
       } catch (e) {
@@ -490,8 +503,8 @@ async function doShareCard() {
     a.download = "ha-homem-ou-mulher-pra-mim.png";
     a.click();
     URL.revokeObjectURL(a.href);
-    try { await navigator.clipboard.writeText(location.href); } catch (e) { /* sem clipboard */ }
-    toast(isRare(r) ? "Card com meme baixado. Link copiado." : "Card baixado. Link copiado.");
+    try { await navigator.clipboard.writeText(shareText()); } catch (e) { /* sem clipboard */ }
+    toast(isRare(r) ? "Card com meme baixado. Mensagem copiada." : "Card baixado. Mensagem copiada.");
   } catch (e) {
     console.error(e);
     toast("Não deu para gerar o card. Tenta de novo?");
