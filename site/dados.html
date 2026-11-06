@@ -39,11 +39,10 @@
   <section class="subhero">
     <div class="wrap">
       <p class="kicker">Os dados por dentro</p>
-      <h1>Os números <em>sem filtro</em>. (Com perdão do trocadilho.)</h1>
+      <h1>Os números por trás da <em>conta</em>.</h1>
       <p class="lede">
-        A mesma base da calculadora, aberta para inspeção. Se o veredito doeu, aqui você confere que
-        não foi perseguição: é o IBGE. Cada gráfico pode ser recalculado a partir de
-        <code>site/data/population.bin</code>.
+        A mesma base da calculadora, aberta para inspeção. Cada gráfico pode ser recalculado a
+        partir de <code>site/data/population.bin</code>.
       </p>
     </div>
   </section>
@@ -61,7 +60,7 @@
     <div class="data-grid">
       <div class="card">
         <p class="kicker">Estrutura</p>
-        <h3>A pirâmide não mente</h3>
+        <h3>Pirâmide etária da base</h3>
         <p class="sub">População representada pela base, em milhões de pessoas.</p>
         <div class="chart" id="pyramid"></div>
         <div class="legend">
@@ -71,7 +70,7 @@
       </div>
       <div class="card">
         <p class="kicker">Renda</p>
-        <h3>Quem ganha quanto</h3>
+        <h3>Distribuição de renda</h3>
         <p class="sub">Participação de cada faixa de renda mensal (todas as fontes, reais de 2025), por sexo.</p>
         <div class="chart" id="rendaChart"></div>
       </div>
@@ -82,7 +81,7 @@
     <div class="data-grid data-grid--wide">
       <div class="card">
         <p class="kicker">Altura</p>
-        <h3>A altura da verdade</h3>
+        <h3>Distribuição de altura</h3>
         <p class="sub">Percentual de pessoas em cada faixa de altura (cm), por sexo. A altura é imputada a partir da PNS 2019, calibrada nos percentis oficiais.</p>
         <div class="chart" id="alturaChart"></div>
         <div class="legend">
@@ -92,7 +91,7 @@
       </div>
       <div class="card">
         <p class="kicker">Marcadores sociais</p>
-        <h3>Diploma, aliança e filhos</h3>
+        <h3>Escolaridade, estado civil e filhos</h3>
         <p class="sub">Participação de cada categoria na população de 20 a 79 anos, por sexo.</p>
         <div id="attrChart" style="display:grid;gap:18px"></div>
       </div>
@@ -103,13 +102,13 @@
     <div class="data-grid">
       <div class="card">
         <p class="kicker">Corpo e hábitos</p>
-        <h3>O pacote completo</h3>
+        <h3>Corpo, hábitos e bens</h3>
         <p class="sub">Percentual de pessoas em cada situação, por sexo.</p>
         <div id="habitChart" style="display:grid;gap:18px"></div>
       </div>
       <div class="card">
         <p class="kicker">Cor/raça</p>
-        <h3>Como a população se declara</h3>
+        <h3>Cor/raça declarada</h3>
         <p class="sub">Classificação do Censo 2022, por sexo.</p>
         <div id="raceChart" style="display:grid;gap:14px"></div>
         <p class="sub" style="margin-top:16px;margin-bottom:0">A cor/raça é um filtro opcional na calculadora. O Censo usa cinco categorias; pessoas que não declaram entram como “parda” em uma fração residual mínima.</p>
@@ -163,7 +162,7 @@
             <span class="arrow">↓</span>
           </a>
           <a class="download" href="data/population.bin" download>
-            <span><b>Base completa binária</b><span>226.692 registros · 20 bytes por pessoa</span></span>
+            <span><b>Base completa binária</b><span>226.692 registros · 56 bytes por pessoa (5 imputações)</span></span>
             <span class="arrow">↓</span>
           </a>
           <a class="download" href="data/fontes.json" target="_blank" rel="noopener">
