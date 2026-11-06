@@ -212,10 +212,8 @@ git push origin gh-pages
 No GitHub, em **Settings → Pages**, selecione **Source: Deploy from a branch**,
 branch **`gh-pages`** e pasta **`/ (root)`**.
 
-A URL fica no formato
-`https://<seu-usuario>.github.io/ha-homem-ou-mulher-pra-mim/`.
-
-A URL pública fica no campo *Homepage* do repositório.
+A URL pública é **https://ha-pra-mim.github.io/** e também fica no campo
+*Homepage* do repositório.
 
 ## Nota sobre espaço em disco
 
