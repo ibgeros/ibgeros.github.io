@@ -40,7 +40,7 @@ export function describe(state, key) {
   switch (key) {
     case "age":
       return state.ageMin === state.ageMax
-        ? `${AGE_BANDS[state.ageMin]} anos`
+        ? `${AGE_BANDS[state.ageMin].replace("-", " a ")} anos`
         : `${AGE_BANDS[state.ageMin].split("-")[0]} a ${AGE_BANDS[state.ageMax].split("-")[1]} anos`;
     case "altura": return state.altura <= 150 ? "Qualquer" : `${state.altura} cm ou mais`;
     case "renda": return state.renda > 0 ? `${fmtMoney(state.renda)} ou mais` : "Qualquer";

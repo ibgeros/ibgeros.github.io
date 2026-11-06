@@ -1,5 +1,5 @@
 /* Gera o card compartilhável (1080×1350) com o resultado e, se for raro, o meme. */
-import { fmtInt, fmtCompact, fmtPct, fmtOneIn } from "./engine.js";
+import { fmtInt, fmtCompact, fmtPct, fmtOneIn, describe } from "./engine.js";
 
 const W = 1080, H = 1350;
 const PAPER = "#f4f1ea";
@@ -127,13 +127,14 @@ export async function buildShareCard({ result, state, rare, ufName }) {
 
   ctx.fillStyle = SOFT;
   ctx.font = '400 30px Inter, sans-serif';
-  ctx.fillText(`${alvo} de 20 a 79 anos ${ufName ? "em " + ufName : "no Brasil"}`, 64, 416);
+  ctx.fillText(`${alvo} de ${describe(state, "age")} ${ufName ? "em " + ufName : "no Brasil"}`, 64, 416);
 
   const pct = result.share > 0 ? fmtPct(result.share) : "0%";
   const odds = result.match > 0 ? fmtOneIn(result.oneIn) : "1 em —";
+  const grupo = state.sex === 0 ? "todos os homens" : "todas as mulheres";
   ctx.fillStyle = ACCENT;
-  ctx.font = '400 44px Fraunces, Georgia, serif';
-  ctx.fillText(`${pct} do grupo  ·  ${odds}`, 64, 480);
+  ctx.font = '400 40px Fraunces, Georgia, serif';
+  ctx.fillText(`${pct} de ${grupo} (20–79)  ·  ${odds}`, 64, 480);
 
   // resumo dos filtros
   if (result.counts && result.maxCount > result.minCount) {

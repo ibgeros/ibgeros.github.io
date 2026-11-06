@@ -106,10 +106,10 @@
 
         <div class="filter-row" data-filter="renda">
           <div class="filter-row__head">
-            <label for="renda">Renda mensal mínima</label>
-            <output class="filter-row__value" id="rendaOut">R$ 3.000</output>
+            <label for="renda">Renda mensal mínima <span class="label-note">individual · todas as fontes</span></label>
+            <output class="filter-row__value" id="rendaOut" title="Renda individual mensal, de todas as fontes, em reais de 2025">R$ 3.000</output>
           </div>
-          <input class="range" type="range" id="renda" min="0" max="16" step="1" value="5">
+          <input class="range" type="range" id="renda" min="0" max="16" step="1" value="5" title="Renda individual mensal, de todas as fontes, em reais de 2025">
           <div class="filter-row__meta"><span class="meter"><span id="mRenda"></span></span><span id="rendaMeta">—</span></div>
         </div>
 
@@ -198,6 +198,7 @@
         <div class="panel result-card" id="resultCard">
           <div class="result-body" id="resultBody">
             <p class="result-card__eyebrow">Sobreviveram ao seu filtro</p>
+            <p class="result-scope" id="resultScope" hidden></p>
             <div class="result-count mono" id="count">—</div>
             <p class="result-sub" id="subCount">—</p>
             <div class="result-odds">
