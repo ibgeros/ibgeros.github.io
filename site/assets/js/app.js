@@ -235,8 +235,18 @@ function renderResult(r, prevMatch) {
   $("#barCount").textContent = r.match === 0 && r.upper95 ? "< " + fmtCompact(r.upper95) : fmtCompact(r.match);
   $("#barLabel").textContent = isRare(r) ? "modo Xuxa ativado" : "seu veredito";
 
+  const ageLabel = describe(state, "age");
+  const groupAll = isMen ? "todos os homens" : "todas as mulheres";
+  const ageActive = state.ageMin > 0 || state.ageMax < 11;
+  const scopeEl = $("#resultScope");
+  if (ageActive) {
+    scopeEl.hidden = false;
+    scopeEl.textContent = `${isMen ? "Homens" : "Mulheres"} de ${ageLabel} ${where}`;
+  } else {
+    scopeEl.hidden = true;
+  }
   $("#subCount").innerHTML = r.share > 0
-    ? `<b>${fmtPct(r.share)}</b> ${genderArticle} ${gender} de 20 a 79 anos ${where} · base de ${fmtCompact(r.base)}`
+    ? `<b>${fmtPct(r.share)}</b> de ${groupAll} de 20 a 79 anos ${where} · base de ${fmtCompact(r.base)}`
     : `Nenhum registro na amostra. A estimativa é de <b>menos de ~${fmtCompact(r.upper95 || 0)}</b> pessoas — o IBGE não achou, a Xuxa já sabia.`;
 
   const rangeEl = $("#rangeText");
@@ -496,7 +506,9 @@ function shareText() {
     : `menos de ${fmtCompact(r.upper95 || 0)}`;
   const odds = r.match > 0 ? fmtOneIn(r.oneIn) : "quase nenhum";
   const meme = isRare(r) ? " E ainda saiu com meme." : "";
-  return `Fiz o teste no "Há homem ou mulher pra mim no Brasil?" e ${total} ${alvo} ${where} atendem aos meus critérios (${fmtPct(r.share)} do grupo, ${odds}).${meme} Faça o seu teste também: veja quantas pessoas atendem seus critérios em ${location.href}`;
+  const ageLabel = describe(state, "age");
+  const groupAll = state.sex === 0 ? "todos os homens" : "todas as mulheres";
+  return `Fiz o teste no "Há homem ou mulher pra mim no Brasil?" e ${total} ${alvo} de ${ageLabel} ${where} atendem aos meus critérios (${fmtPct(r.share)} de ${groupAll} de 20 a 79 anos, ${odds}).${meme} Faça o seu teste também: veja quantas pessoas atendem seus critérios em ${location.href}`;
 }
 
 async function doShareCard() {

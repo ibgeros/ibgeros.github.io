@@ -728,3 +728,13 @@ hr.soft { border: 0; border-top: 1px solid var(--line-soft); margin: 24px 0; }
   text-decoration: underline; cursor: pointer;
 }
 .linkish:hover { color: var(--ink); }
+
+.result-scope {
+  margin: 2px 0 0; font-size: 12px; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--accent); font-weight: 600;
+}
+
+.label-note {
+  display: block; margin-top: 2px; font-size: 10px; font-weight: 400;
+  letter-spacing: .02em; color: var(--muted);
+}
