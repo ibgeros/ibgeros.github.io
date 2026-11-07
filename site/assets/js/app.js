@@ -9,6 +9,7 @@ import { buildShareCard } from "./sharecard.js";
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 const isMobile = () => matchMedia("(max-width: 760px)").matches;
+const SHARE_ORIGIN = "https://ibgeros-og.vercel.app";
 
 const DEFAULT = {
   sex: 0, uf: "BR", ageMin: 1, ageMax: 3, altura: 175, renda: 3000,
@@ -469,6 +470,27 @@ function renderAudit(r, gender, where) {
 }
 
 /* --------------------------------------------------------------- ações */
+function sharePageUrl() {
+  const r = last.computed;
+  if (!r) return location.href;
+  const to = new URL(location.href);
+  to.searchParams.set("v", "2");
+  const u = new URL(SHARE_ORIGIN + "/r");
+  u.searchParams.set("v", "2");
+  u.searchParams.set("to", to.toString());
+  u.searchParams.set("n", r.match > 0 ? fmtInt(r.match) : "< " + fmtCompact(r.upper95 || 0));
+  u.searchParams.set("pct", fmtPct(r.share));
+  u.searchParams.set("od", r.match > 0 ? fmtOneIn(r.oneIn) : "1 em —");
+  u.searchParams.set("age", describe(state, "age"));
+  u.searchParams.set("where", state.uf === "BR"
+    ? "no Brasil"
+    : `em ${data.ufName[data.ufIndex.get(state.uf)]}`);
+  u.searchParams.set("sex", state.sex === 0 ? "homens" : "mulheres");
+  u.searchParams.set("filters", r.filters.map((f) => f.value).filter(Boolean).slice(0, 4).join(" · ").slice(0, 170));
+  u.searchParams.set("rare", isRare(r) ? "1" : "0");
+  return u.toString();
+}
+
 function shareText() {
   const r = last.computed;
   if (!r) return "";
@@ -483,9 +505,7 @@ function shareText() {
   const meme = isRare(r) ? " E ainda saiu com meme." : "";
   const ageLabel = describe(state, "age");
   const groupAll = state.sex === 0 ? "todos os homens" : "todas as mulheres";
-  const url = new URL(location.href);
-  url.searchParams.set("v", "2");
-  return `Fiz o teste no "Há homem ou mulher pra mim no Brasil?" e ${total} ${alvo} de ${ageLabel} ${where} atendem aos meus critérios (${fmtPct(r.share)} de ${groupAll} de 20 a 79 anos, ${odds}).${meme} Faça o seu teste também: veja quantas pessoas atendem seus critérios em ${url.toString()}`;
+  return `Fiz o teste no "Há homem ou mulher pra mim no Brasil?" e ${total} ${alvo} de ${ageLabel} ${where} atendem aos meus critérios (${fmtPct(r.share)} de ${groupAll} de 20 a 79 anos, ${odds}).${meme} Faça o seu teste também: veja quantas pessoas atendem seus critérios em ${sharePageUrl()}`;
 }
 
 async function buildCardBlob() {
@@ -502,33 +522,21 @@ async function doShareLink() {
   const r = last.computed;
   if (!r) return;
   const text = shareText();
-  const blob = await buildCardBlob();
-  const file = blob
-    ? new File([blob], "sobreviveram-ao-meu-filtro.png", { type: "image/png" })
-    : null;
-  if (navigator.share && file && navigator.canShare && navigator.canShare({ files: [file] })) {
+  if (navigator.share) {
     try {
       await navigator.share({
-        files: [file],
         title: "Há homem ou mulher pra mim no Brasil?",
         text,
       });
-      toast("Card enviado com a imagem do resultado.");
+      toast("Link enviado com o preview do resultado.");
       return;
     } catch (e) {
       if (e && e.name === "AbortError") return;
     }
   }
-  if (file) {
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "sobreviveram-ao-meu-filtro.png";
-    a.click();
-    URL.revokeObjectURL(a.href);
-  }
   try {
     await navigator.clipboard.writeText(text);
-    toast(file ? "Card baixado. Mensagem copiada." : "Mensagem copiada. Agora é só colar no grupo.");
+    toast("Mensagem copiada. Agora é só colar no grupo.");
   } catch (e) {
     prompt("Copie a mensagem para compartilhar:", text);
   }
