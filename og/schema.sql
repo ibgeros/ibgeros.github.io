@@ -1,6 +1,6 @@
 create table if not exists analytics_events (
   id bigserial primary key,
-  created_at timestamptz not null default now(),
+  created_at timestamptz not null default date_trunc('day', now()),
   event text not null,
   city text,
   region text,
@@ -24,7 +24,6 @@ create table if not exists analytics_events (
   home text,
   race text,
   result_bucket text,
-  result_pct numeric(8,4),
   rare boolean
 );
 
@@ -34,7 +33,7 @@ create index if not exists analytics_events_event_idx on analytics_events (event
 
 create table if not exists privacy_requests (
   id bigserial primary key,
-  created_at timestamptz not null default now(),
+  created_at timestamptz not null default date_trunc('day', now()),
   name text,
   email text,
   message text not null,

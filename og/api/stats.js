@@ -28,19 +28,19 @@ export default async function handler(req, res) {
   const cities = await sql`
     select city, region, count(*)::int as n
     from analytics_events
-    where created_at >= ${since} and city is not null
+    where created_at >= ${since} and city is not null and city <> ''
     group by city, region having count(*) >= 20
     order by n desc limit 30`;
 
   const regions = await sql`
     select region, count(*)::int as n from analytics_events
-    where created_at >= ${since} and region is not null
+    where created_at >= ${since} and region is not null and region <> ''
     group by region order by n desc limit 30`;
 
   const utm = await sql`
     select utm_source, utm_medium, utm_campaign, count(*)::int as n
     from analytics_events
-    where created_at >= ${since} and utm_source is not null
+    where created_at >= ${since} and utm_source is not null and utm_source <> ''
     group by utm_source, utm_medium, utm_campaign order by n desc limit 30`;
 
   const daily = await sql`
@@ -53,12 +53,15 @@ export default async function handler(req, res) {
     if (!SAFE.has(col)) continue;
     const rows = await sql.unsafe(
       `select ${col} as value, count(*)::int as n from analytics_events
-       where created_at >= now() - make_interval(days => $1) and ${col} is not null
+       where created_at >= now() - make_interval(days => $1) and ${col} is not null and ${col} <> ''
        group by ${col} order by n desc limit 20`,
       [days]
     );
     filters[col] = { label, rows };
   }
+
+  await sql`delete from analytics_events where created_at < now() - interval '90 days'`;
+  await sql`delete from privacy_requests where created_at < now() - interval '365 days'`;
 
   const requests = await sql`
     select id, created_at, name, email, message, status

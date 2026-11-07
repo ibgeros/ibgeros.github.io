@@ -211,7 +211,7 @@ function renderResult(r, prevMatch) {
     animateNumber(countEl, prevMatch, r.match);
   }
   $("#barCount").textContent = r.match === 0 && r.upper95 ? "< " + fmtCompact(r.upper95) : fmtCompact(r.match);
-  $("#barLabel").textContent = isRare(r) ? "modo Xuxa ativado" : "seu veredito";
+  $("#barLabel").textContent = isRare(r) ? "resultado raro" : "seu veredito";
 
   const ageLabel = describe(state, "age");
   const groupAll = isMen ? "todos os homens" : "todas as mulheres";
@@ -225,7 +225,7 @@ function renderResult(r, prevMatch) {
   }
   $("#subCount").innerHTML = r.share > 0
     ? `<b>${fmtPct(r.share)}</b> de ${groupAll} de 20 a 79 anos ${where} · base de ${fmtCompact(r.base)}`
-    : `Nenhum registro na amostra. A estimativa é de <b>menos de ~${fmtCompact(r.upper95 || 0)}</b> pessoas — o IBGE não achou, a Xuxa já sabia.`;
+    : `Nenhum registro na amostra. A estimativa é de <b>menos de ~${fmtCompact(r.upper95 || 0)}</b> pessoas — o IBGE não achou.`;
 
   const rangeEl = $("#rangeText");
   if (r.match > 0 && r.maxCount > r.minCount) {
@@ -277,7 +277,7 @@ function renderResult(r, prevMatch) {
   if (!r.filters.length) {
     insight = "Zero critérios. O Brasil inteiro. Boa sorte na triagem.";
   } else if (r.match === 0) {
-    insight = "Zero. Nem o IBGE achou. A Xuxa estava certa.";
+    insight = "Zero. Nem o IBGE achou.";
   } else if (activeFilters.length) {
     const top = activeFilters.sort((a, b) => b.ratio - a.ratio)[0];
     insight = `O filtro que mais te machuca é <b>${top.label.toLowerCase()}</b>: sem ele, o pool seria <b>${fmtRatio(top.ratio)}</b> maior.`;
@@ -651,14 +651,8 @@ function wire() {
       const p = btn.dataset.preset;
       if (p === "basico") {
         state = { ...DEFAULT, sex: state.sex, uf: state.uf, ageMin: 0, ageMax: 11, altura: 150, renda: 0 };
-      } else if (p === "padrao") {
-        state = { ...DEFAULT, sex: state.sex, uf: state.uf };
-      } else if (p === "xuxa") {
-        state = { ...DEFAULT, sex: state.sex, uf: state.uf, ageMin: 1, ageMax: 4,
-          altura: 185, renda: 15000, edu: 2, marital: 1, kids: true, bmi: 1, smoke: true, car: true, home: true };
       } else {
-        state = { ...DEFAULT, sex: state.sex, uf: state.uf, ageMin: 2, ageMax: 4,
-          altura: 185, renda: 10000, edu: 2, marital: 1, kids: true, bmi: 1, smoke: true };
+        state = { ...DEFAULT, sex: state.sex, uf: state.uf };
       }
       paintControls();
       renderNow();

@@ -48,7 +48,7 @@ export default function handler(req) {
                 display: "flex", backgroundColor: "#efe7d8", color: "#b23a1e",
                 borderRadius: 20, padding: "8px 16px", fontSize: 16, fontWeight: 700,
               },
-            }, "modo Xuxa")
+            }, "raro")
           : null
       ),
       h("div", { style: { height: 1, backgroundColor: "#d7cfbf", marginTop: 26 } }),

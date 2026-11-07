@@ -66,7 +66,7 @@ export function trackFilters(r, state, extra = {}) {
   if (readConsent() !== "accepted" || !r) return;
   clearTimeout(filtersTimer);
   filtersTimer = setTimeout(() => {
-    const income = state.renda === 0 ? "qualquer" : fmtMoney(RENDA_STEPS[state.renda]);
+    const income = state.renda === 0 ? "qualquer" : fmtMoney(state.renda);
     const race = state.race.length ? state.race.map((i) => RACA_NAMES[i]).join("+") : "qualquer";
     send("filters", {
       age_range: describe(state, "age"),
@@ -82,7 +82,6 @@ export function trackFilters(r, state, extra = {}) {
       home: state.home ? "casa própria" : "qualquer",
       race,
       result_bucket: bucket(r.match),
-      result_pct: Number((r.share * 100).toFixed(2)),
       rare: extra.rare === true,
     });
   }, 1400);

@@ -2,8 +2,13 @@ import { db } from "../lib/db.js";
 import { requireAdmin } from "../lib/auth.js";
 
 export default async function handler(req, res) {
-  if (!requireAdmin(req, res)) return;
-  if (req.method !== "POST") return res.status(405).json({ error: "method" });
+  const secret = process.env.CRON_SECRET;
+  const isCron = req.headers["x-vercel-cron"] === "1" ||
+    (Boolean(secret) && req.headers.authorization === `Bearer ${secret}`);
+  if (!isCron) {
+    if (!requireAdmin(req, res)) return;
+    if (req.method !== "POST") return res.status(405).json({ error: "method" });
+  }
   const sql = db();
   const events = await sql`delete from analytics_events where created_at < now() - interval '90 days' returning id`;
   const requests = await sql`delete from privacy_requests where created_at < now() - interval '365 days' returning id`;
