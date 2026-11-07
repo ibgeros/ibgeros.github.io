@@ -237,7 +237,7 @@ export function scoreLabel(score) {
   if (score <= 4) return ["seletivo", "Dá pra garimpar"];
   if (score <= 6) return ["garimpo", "Já é um nicho"];
   if (score <= 8) return ["agulha no palheiro", "Pouca gente no país inteiro"];
-  return ["modo Xuxa", "No Brasil não há. Ou quase."];
+  return ["raríssimo", "Pouquíssima gente no país inteiro"];
 }
 
 /* ------------------------------------------------------------ formatação */
