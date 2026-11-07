@@ -5,6 +5,7 @@ import {
 } from "./engine.js";
 import { hbar, groupedBars } from "./charts.js";
 import { buildShareCard } from "./sharecard.js";
+import { initAnalytics, trackEvent, trackFilters } from "./analytics.js";
 
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => Array.from(document.querySelectorAll(sel));
@@ -170,6 +171,7 @@ function renderNow() {
   last.computed = r;
   renderResult(r, prev);
   renderFunnel(r);
+  trackFilters(r, state, { rare: isRare(r) });
   paintControls();
   syncURL();
 }
@@ -521,6 +523,7 @@ async function buildCardBlob() {
 async function doShareLink() {
   const r = last.computed;
   if (!r) return;
+  trackEvent("share", { rare: isRare(r) });
   const text = shareText();
   if (navigator.share) {
     try {
@@ -544,6 +547,7 @@ async function doShareLink() {
 
 async function downloadCard() {
   try {
+    trackEvent("download", { rare: isRare(last.computed) });
     const blob = await buildCardBlob();
     if (!blob) return;
     const a = document.createElement("a");
@@ -561,6 +565,7 @@ async function downloadCard() {
 function downloadJson() {
   const r = last.computed;
   if (!r) return;
+  trackEvent("download_json", { rare: isRare(r) });
   const payload = {
     gerado_em: new Date().toISOString(),
     filtros: state,
@@ -681,6 +686,10 @@ async function boot() {
       (total / 1e6).toLocaleString("pt-BR", { maximumFractionDigits: 1 }) + " milhões";
 
     wire();
+    initAnalytics();
+    window.addEventListener("ibgeros-consent", () => {
+      if (last.computed) trackFilters(last.computed, state, { rare: isRare(last.computed) });
+    });
     paintControls();
     renderNow();
     requestAnimationFrame(() => $("#veil").classList.add("hide"));
