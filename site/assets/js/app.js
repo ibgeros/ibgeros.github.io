@@ -483,7 +483,9 @@ function shareText() {
   const meme = isRare(r) ? " E ainda saiu com meme." : "";
   const ageLabel = describe(state, "age");
   const groupAll = state.sex === 0 ? "todos os homens" : "todas as mulheres";
-  return `Fiz o teste no "Há homem ou mulher pra mim no Brasil?" e ${total} ${alvo} de ${ageLabel} ${where} atendem aos meus critérios (${fmtPct(r.share)} de ${groupAll} de 20 a 79 anos, ${odds}).${meme} Faça o seu teste também: veja quantas pessoas atendem seus critérios em ${location.href}`;
+  const url = new URL(location.href);
+  url.searchParams.set("v", "2");
+  return `Fiz o teste no "Há homem ou mulher pra mim no Brasil?" e ${total} ${alvo} de ${ageLabel} ${where} atendem aos meus critérios (${fmtPct(r.share)} de ${groupAll} de 20 a 79 anos, ${odds}).${meme} Faça o seu teste também: veja quantas pessoas atendem seus critérios em ${url.toString()}`;
 }
 
 async function buildCardBlob() {
