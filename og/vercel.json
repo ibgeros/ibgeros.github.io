@@ -2,6 +2,7 @@
   "name": "ibgeros-og",
   "rewrites": [
     { "source": "/r", "destination": "/api/r" },
-    { "source": "/og", "destination": "/api/og" }
+    { "source": "/og", "destination": "/api/og" },
+    { "source": "/og.png", "destination": "/api/og" }
   ]
 }

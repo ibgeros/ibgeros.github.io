@@ -195,6 +195,24 @@ código deste projeto são independentes e não oficiais.
 
 Projeto sem fins comerciais, feito para discussão pública com método aberto.
 
+## Preview de link (OG)
+
+O botão **Compartilhar com amigos** monta um link para
+`https://ibgeros-og.vercel.app/r?...` com o resultado da pessoa. Essa função
+serverless gera a imagem OG dinâmica em `/og.png`, com número, idade, percentual e
+filtros, e redireciona para o site. O GitHub Pages continua sendo o site; a Vercel
+só hospeda o preview.
+
+Para publicar o preview:
+
+```bash
+cd og
+npx vercel deploy --prod
+```
+
+O fallback estático do site (`assets/img/og-card.png`) continua valendo para quem
+colar o link direto do GitHub Pages.
+
 ## Publicar no GitHub Pages
 
 O site é estático e está em `site/`. A publicação usa a branch **`gh-pages`**,

@@ -15,7 +15,7 @@ export default function handler(req) {
   for (const k of ["n", "sex", "age", "where", "pct", "od", "filters", "rare"]) {
     q.set(k, p.get(k) || "");
   }
-  const image = `${u.origin}/api/og?${q.toString()}`;
+  const image = `${u.origin}/og.png?${q.toString()}`;
   const n = p.get("n") || "—";
   const sex = p.get("sex") || "pessoas";
   const where = p.get("where") || "no Brasil";
@@ -47,7 +47,7 @@ main{max-width:560px;padding:40px} a{color:#b23a1e}
 <p>Redirecionando para o resultado…</p>
 <p><a href="${esc(to)}">Abrir a calculadora</a></p>
 </main>
-<script>location.replace(${JSON.stringify(to)});</script>
+<script>location.replace(${JSON.stringify(to).replace(/</g, "\\u003c")});</script>
 </body></html>`, {
     headers: { "content-type": "text/html; charset=utf-8", "cache-control": "public, max-age=60" },
   });
