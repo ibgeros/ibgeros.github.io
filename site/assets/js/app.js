@@ -502,21 +502,33 @@ async function doShareLink() {
   const r = last.computed;
   if (!r) return;
   const text = shareText();
-  if (navigator.share) {
+  const blob = await buildCardBlob();
+  const file = blob
+    ? new File([blob], "sobreviveram-ao-meu-filtro.png", { type: "image/png" })
+    : null;
+  if (navigator.share && file && navigator.canShare && navigator.canShare({ files: [file] })) {
     try {
       await navigator.share({
+        files: [file],
         title: "Há homem ou mulher pra mim no Brasil?",
         text,
       });
-      toast("Link enviado. Agora é só esperar o convite.");
+      toast("Card enviado com a imagem do resultado.");
       return;
     } catch (e) {
       if (e && e.name === "AbortError") return;
     }
   }
+  if (file) {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "sobreviveram-ao-meu-filtro.png";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
   try {
     await navigator.clipboard.writeText(text);
-    toast("Mensagem copiada. Agora é só colar no grupo.");
+    toast(file ? "Card baixado. Mensagem copiada." : "Mensagem copiada. Agora é só colar no grupo.");
   } catch (e) {
     prompt("Copie a mensagem para compartilhar:", text);
   }
